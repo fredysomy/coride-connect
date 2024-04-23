@@ -1,29 +1,22 @@
-
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./App.css";
 
 // Import your components
-import LoginPage from './pages/LoginPage';
-import HomePage from './pages/HomePage';
-import ProfileCreatePage from './pages/ProfileCreate';
+import LoginPage from "./pages/LoginPage";
+import HomePage from "./pages/HomePage";
+import ProfileCreatePage from "./pages/ProfileCreate";
+import ProfileView from "./pages/ProfileView";
 
 function App() {
-
   return (
-    <Router>
-      <Switch>
-        <Route path="/login">
-          <LoginPage />
-        </Route>
-        <Route path="/home">
-          <HomePage />
-        </Route>
-        <Route path="/profile/create">
-          <ProfileCreatePage />
-        </Route>
-        
-      </Switch>
-    </Router>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/profile/create" element={<ProfileCreatePage />} />
+        <Route path="/profile/view" element={<ProfileView/>}/>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
