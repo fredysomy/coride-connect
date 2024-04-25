@@ -9,7 +9,9 @@ export default function ProfileCreate() {
     phoneno: "",
     institution: "",
     license: "",
-    role: ""
+    role: "",
+    drive_exp: "",
+    car_regno:""
   });
 
   const handleSubmit = (e) => {
@@ -19,11 +21,13 @@ export default function ProfileCreate() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInput({ ...input, [name]: value });
+    console.log(e.target.value)
   };
+  
   console.log(input)
 
   return (
-    <div className="bg-white-100 text-black rounded-lg shadow-lg p-8 max-w-md mx-auto">
+    <div className="bg-white-100 text-black pt-8 lg:pl-8 lg:mx-auto max-w-md">
       <h2 className="text-2xl font-bold mb-4">Create an Account</h2>
       <form className="space-y-4">
         <div>
@@ -107,7 +111,31 @@ export default function ProfileCreate() {
               type="text"
               onChange={handleChange}
             />
+            <label className="block text-sm font-medium">
+            Drive Experiance
+          </label>
+          <input
+            className="mt-1 block w-full rounded-lg border-none border-gray-300 shadow-sm focus:border-transparent focus:ring-0 sm:text-sm px-4 py-2"
+            id="exp"
+            name="drive_exp"
+            placeholder="Enter Driving Experiance"
+            type="text"
+            onChange={handleChange}
+          />
+           <label className="block text-sm font-medium">
+           Car Registration Number
+          </label>
+          <input
+            className="mt-1 block w-full rounded-lg border-none border-gray-300 shadow-sm focus:border-transparent focus:ring-0 sm:text-sm px-4 py-2"
+            id="registation"
+            name="car_regno"
+            placeholder="Enter your Car Registration Number"
+            type="text"
+            onChange={handleChange}
+          />
           </div>
+          
+          
         )}
         <button
           className="inline-flex justify-center rounded-md border border-transparent bg-green-800 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-green-750 focus:outline-none focus:ring-0"
