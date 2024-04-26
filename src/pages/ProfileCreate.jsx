@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import "../App.css";
+
 
 export default function ProfileCreate() {
   const [input, setInput] = useState({
