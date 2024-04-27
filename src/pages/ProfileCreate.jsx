@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-import "../App.css";
 
 export default function ProfileCreate() {
   const [input, setInput] = useState({
@@ -27,6 +25,7 @@ export default function ProfileCreate() {
   console.log(input)
 
   return (
+
     <div className="bg-white-100 text-black pt-8 lg:pl-8 lg:mx-auto max-w-md">
       <h2 className="text-2xl font-bold mb-4">Create an Account</h2>
       <form className="space-y-4">
@@ -147,4 +146,5 @@ export default function ProfileCreate() {
       </form>
     </div>
   );
+
 }
