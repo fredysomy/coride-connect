@@ -1,23 +1,57 @@
-import React from "react";
-
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { auth, db } from "../firebase/firebase.js";
+import { collection, query, where, getDocs } from 'firebase/firestore';
 export default function ProfileView() {
-  const profile = {
-    name: "Irine Ann Jikku",
-    rating: 4.3,
-    exp: 1,
-    number: 9034024928,
-    age: 22,
-    location: "Kottayam, Kerala",
-    DL_number: 57855766768,
-    seat: 4,
-    reg_no: "KL84829",
-    reviews: [
-      { name: "Rahul", comment: "It was a wonderful experience travelling with " },
-      { name: "Jerin", comment: "Nice to drive" },
-      { name: "jeslin", comment: "Very Bad Ride" }
-    ]
-  };
 
+  const [userEmail, setUserEmail] = useState("");
+  const [profile, setProfile] = useState(null);
+  const [userData,setUserData]=useState(null);
+  const [rating,setRating]=useState(0);
+  const history = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUserEmail(user.email);
+        setUserData(user);
+      } else {
+        // If user is not logged in, redirect to /login
+        history.push("/login");
+      }
+    });
+
+    return unsubscribe;
+  }, [history]);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const profileRef = collection(db, 'profile');
+        const q = query(profileRef, where('email', '==', userEmail));
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          const profileData = querySnapshot.docs[0].data(); // Assuming there's only one profile per user
+          setProfile(profileData);
+          setRating(profileData.rating.reduce((a, b) => a + b, 0) / profileData.rating.length || 0);
+
+        } else {
+          console.log("No profile found for the current user.");
+        }
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      }
+      console.log(userData.photoURL)
+    };
+  
+    if (userEmail) {
+      fetchProfile();
+    }
+  }, [userEmail]);
+
+  if (!profile) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className="min-h-screen min-w-screen ">
       <div className="max-w-5xl mx-auto bg-white rounded-lg overflow-hidden">
@@ -26,7 +60,7 @@ export default function ProfileView() {
             <div className="flex justify-center p-5 mb-4">
               <img
                 className="w-24 h-24 rounded-full"
-                src="https://xsgames.co/randomusers/avatar.php?g=female"
+                src={userData.photoURL}
                 alt="Profile Avatar"
               />
             </div>
@@ -35,11 +69,11 @@ export default function ProfileView() {
               <div className="rounded-lg">
                 <div className="flex justify-center gap-20 pb-5 ">
                   <div className="flex flex-col ">
-                    <p className="flex justify-center text-black">{profile.rating}</p>
+                    <p className="flex justify-center text-black">{rating}</p>
                     <p className="text-black">Rating</p>
                   </div>
                   <div className="flex flex-col">
-                    <p className="flex justify-center text-black">{profile.exp}</p>
+                    <p className="flex justify-center text-black">{profile.drive_exp}</p>
                     <p className="text-black">Year</p>
                   </div>
                 </div>
@@ -47,22 +81,21 @@ export default function ProfileView() {
             </div>
           </div>
 
-          <p className="mt-2 text-black text-left pl-2">Phone: {profile.number}</p>
+          <p className="mt-2 text-black text-left pl-2">Phone: {profile.phoneno}</p>
           <hr className="my-4 bg-black" />
           
           <div>
             <h2 className="text-lg font-semibold mb-2 text-black underline pl-2">Details</h2>
             <p className="mb-1 text-black text-left pl-2">Age: {profile.age}</p>
-            <p className="mb-1 text-black text-left pl-2">Location: {profile.location}</p>
-            <p className="mb-1 text-black text-left pl-2">DL Number: {profile.DL_number}</p>
-            <p className="mb-1 text-black text-left pl-2">Available seat: {profile.seat}</p>
-            <p className="mb-1 text-black text-left pl-2">Registration Number: {profile.reg_no}</p>
+            <p className="mb-1 text-black text-left pl-2">DL Number: {profile.license}</p>
+            <p className="mb-1 text-black text-left pl-2">Registration Number: {profile.vehicle_regno}</p>
           </div>
 
           <hr className="my-4" />
 
           <div>
             <h2 className="text-lg font-semibold text-black underline">Reviews</h2>
+            
             <div className="rounded-lg">
               {profile.reviews.map((review, index) => (
                 <div key={index} className="mb-2 bg-gray-300 rounded-lg">
@@ -70,6 +103,7 @@ export default function ProfileView() {
                   <p className="mb-1 text-black text-left pl-2">{review.comment}</p>
                 </div>
               ))}
+           
             </div>
           </div>
         </div>

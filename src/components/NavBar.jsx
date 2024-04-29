@@ -1,70 +1,88 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Navbar,
-
   Typography,
   Button,
   IconButton,
-
   Collapse,
 } from "@material-tailwind/react";
-import { useNavigate } from "react-router-dom";
- 
+import { auth } from "../firebase/firebase";
+
 export function StickyNavbar() {
+  const currentUser = auth.currentUser;
   const [openNav, setOpenNav] = React.useState(false);
- const nav=useNavigate()
+
+  
   React.useEffect(() => {
     window.addEventListener(
       "resize",
-      () => window.innerWidth >= 960 && setOpenNav(false),
+      () => window.innerWidth >= 960 && setOpenNav(false)
     );
   }, []);
- 
-const navList = (
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+    });
+
+    // Clean up subscription on unmount
+    return () => unsubscribe();
+  }, []);
+
+  const handleLogout = () => {
+    auth.signOut();
+  };
+
+  const navList = (
     <ul className=" flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 ">
-        <Typography
-            as="li"
-            variant="small"
-            color="blue-gray"
-            className="p-1 font-normal text-white "
-        >
-            <a href="#" className="flex items-center">
-                Home
-            </a>
-        </Typography>
-        <Typography
+      {currentUser && ( // Check if user is logged in
+        <>
+          <Typography
             as="li"
             variant="small"
             color="blue-gray"
             className="p-1 font-normal text-white"
-        >
-            <a href="#" className="flex items-center">
-                Profile
+          >
+            <a href="/home" className="flex items-center">
+              Home
             </a>
-        </Typography>
-        <Typography
+          </Typography>
+          <Typography
             as="li"
             variant="small"
             color="blue-gray"
             className="p-1 font-normal text-white"
-        >
-            <a href="#" className="flex items-center">
-                Notifications
+          >
+            <a href="/profile/view" className="flex items-center">
+              Profile
             </a>
-        </Typography>
-        <Typography
+          </Typography>
+          <Typography
             as="li"
             variant="small"
             color="blue-gray"
             className="p-1 font-normal text-white"
-        >
+          >
             <a href="#" className="flex items-center">
-                Requests
+              Notifications
             </a>
-        </Typography>
+          </Typography>
+          <Typography
+            as="li"
+            variant="small"
+            color="blue-gray"
+            className="p-1 font-normal text-white"
+          >
+            <a href="#" className="flex items-center">
+              Requests
+            </a>
+          </Typography>
+        </>
+      )}
     </ul>
-);
- 
+  );
+
   return (
     <div className="w-screen max-h-[768px] overflow-scroll ">
       <Navbar className="sticky top-0 z-10 h-max max-w-full rounded-none px-4 py-2 lg:px-8 lg:py-4 bg-custom-green border-none bg-opacity-100">
@@ -78,22 +96,7 @@ const navList = (
           </Typography>
           <div className="flex items-center gap-4">
             <div className="mr-4 hidden lg:block">{navList}</div>
-            <div className="flex items-center gap-x-1">
-              <Button
-                variant="text"
-                size="sm"
-                className="hidden lg:inline-block"
-              >
-                <span>Log In</span>
-              </Button>
-              <Button
-                variant="gradient"
-                size="sm"
-                className="hidden lg:inline-block"
-              >
-                <span>Sign in</span>
-              </Button>
-            </div>
+            <div className="flex items-center gap-x-1"></div>
             <IconButton
               variant="text"
               className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden text-white"
@@ -136,14 +139,18 @@ const navList = (
         <Collapse open={openNav}>
           {navList}
           <div className="flex items-center gap-x-1">
-            <Button fullWidth variant="text" size="sm" className="bg-black text-white" onClick={()=>{nav('/login')}}>
-              <span>Log In</span>
-            </Button>
-            
+            {user ? (
+              <Button variant="text" size="sm" onClick={handleLogout}>
+                Log Out
+              </Button>
+            ) : (
+              <Button variant="text" size="sm">
+                Log In
+              </Button>
+            )}
           </div>
         </Collapse>
       </Navbar>
-
     </div>
   );
 }
