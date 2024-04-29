@@ -1,4 +1,4 @@
-
+import React, { useState } from "react";
 export default function ProfileCreate() {
   const [input, setInput] = useState({
     name: "",
