@@ -6,7 +6,9 @@ import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import ProfileCreatePage from "./pages/ProfileCreate";
 import ProfileView from "./pages/ProfileView";
+import Review from "./pages/Review";
 import { StickyNavbar } from "./components/NavBar";
+
 
 function App() {
   return (
@@ -18,6 +20,7 @@ function App() {
           <Route path="/home" element={<HomePage />} />
           <Route path="/profile/create" element={<ProfileCreatePage />} />
           <Route path="/profile/view" element={<ProfileView />} />
+          <Route path="/Review" element={<Review />} />
         </Routes>
       </BrowserRouter>
     </>
