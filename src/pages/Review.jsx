@@ -1,8 +1,8 @@
 
 
-export default function HomePage() {
+export default function Review() {
     return (
-      <div>HomePage</div>
+      <div>review</div>
     )
   }
   
