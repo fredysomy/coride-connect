@@ -4,6 +4,7 @@ import { auth, db } from "../firebase/firebase.js";
 import { collection, query, where, getDocs } from 'firebase/firestore';
 export default function ProfileView() {
 
+
   const [userEmail, setUserEmail] = useState("");
   const [profile, setProfile] = useState(null);
   const [userData,setUserData]=useState(null);
@@ -110,4 +111,6 @@ export default function ProfileView() {
       </div>
     </div>
   );
+
 }
+

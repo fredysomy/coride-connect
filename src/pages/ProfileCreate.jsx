@@ -1,4 +1,5 @@
 
+
 import {  useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {auth, db} from "../firebase/firebase.js";
@@ -53,6 +54,7 @@ export default function ProfileCreate() {
   };
 
   console.log(input)
+
 
   return (
 
@@ -157,9 +159,12 @@ export default function ProfileCreate() {
           </label>
           <input
             className="mt-1 block w-full rounded-lg border-none border-gray-300 shadow-sm focus:border-transparent focus:ring-0 sm:text-sm px-4 py-2"
+
             id="vehicle_regno"
             name="vehicle_regno"
+
             placeholder="Enter your Car Registration Number"
+
             type="text"
             onChange={handleChange}
           />
