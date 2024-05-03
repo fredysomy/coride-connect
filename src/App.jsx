@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import ProfileCreatePage from "./pages/ProfileCreate";
 import ProfileView from "./pages/ProfileView";
+import Bookpage from "./pages/Bookpage";
 import { StickyNavbar } from "./components/NavBar";
 
 import MainPage from "./pages/MainPage";
@@ -25,8 +26,12 @@ function App() {
           <Route path="/home" element={<HomePage />} />
           <Route path="/profile/create" element={<ProfileCreatePage />} />
           <Route path="/profile/view" element={<ProfileView />} />
+
+          <Route path="/book_ride" element={<Bookpage/>}/>
+
           <Route path="/offerride" element={<Offerride/>} />
           <Route path="/review" element={<Review />} />
+
         </Routes>
       </BrowserRouter>
     </>
