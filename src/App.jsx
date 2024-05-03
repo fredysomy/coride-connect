@@ -7,6 +7,8 @@ import HomePage from "./pages/HomePage";
 import ProfileCreatePage from "./pages/ProfileCreate";
 import ProfileView from "./pages/ProfileView";
 import { StickyNavbar } from "./components/NavBar";
+import Offerride from "./pages/Offeride.jsx";
+import Review from "./pages/Review.jsx";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
           <Route path="/home" element={<HomePage />} />
           <Route path="/profile/create" element={<ProfileCreatePage />} />
           <Route path="/profile/view" element={<ProfileView />} />
+          <Route path="/offerride" element={<Offerride/>} />
+          <Route path="/review" element={<Review />} />
         </Routes>
       </BrowserRouter>
     </>
