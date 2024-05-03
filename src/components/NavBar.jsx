@@ -74,6 +74,16 @@ export function StickyNavbar() {
             color="blue-gray"
             className="p-1 font-normal text-white"
           >
+            <a href="/offerride" className="flex items-center">
+              Offer a Ride
+            </a>
+          </Typography>
+          <Typography
+            as="li"
+            variant="small"
+            color="blue-gray"
+            className="p-1 font-normal text-white"
+          >
             <a href="#" className="flex items-center">
               Requests
             </a>

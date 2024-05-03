@@ -27,7 +27,7 @@ function App() {
           <Route path="/profile/create" element={<ProfileCreatePage />} />
           <Route path="/profile/view" element={<ProfileView />} />
 
-          <Route path="/book_ride" element={<Bookpage/>}/>
+          <Route path="/book_ride/:id" element={<Bookpage/>}/>
 
           <Route path="/offerride" element={<Offerride/>} />
           <Route path="/review" element={<Review />} />
