@@ -1,4 +1,5 @@
-
+import React, { useState } from "react";
+import "../App.css";
 
 export default function ProfileCreate() {
   const [input, setInput] = useState({
@@ -128,7 +129,7 @@ export default function ProfileCreate() {
             className="mt-1 block w-full rounded-lg border-none border-gray-300 shadow-sm focus:border-transparent focus:ring-0 sm:text-sm px-4 py-2"
             id="registation"
             name="car_regno"
-            placeholder="Enter your Car Registration Number"
+            placeholder="Enter your car"
             type="text"
             onChange={handleChange}
           />
