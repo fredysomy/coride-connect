@@ -9,11 +9,13 @@ const Bookpage = () => {
     const [destination, setDestination] = useState('Puthupally');
     const [startingPoint, setStartingPoint] = useState('Pathamuttom');
     const [time, setTime] = useState('3:30 pm');
+    const [date, setDate] = useState('2024-05-03'); // Add date state
+    const [estimatedFare, setEstimatedFare] = useState('$50'); // Add estimated fare state
 
     return (
         <div className="flex justify-center items-center h-screen m-5">
             <div className="bg-white shadow-lg rounded-lg bg-gray-100 w-full max-w-md p-8">
-                <div className="flex items-center mb-6 flex-col">
+                <div className="flex items-center mb-6 flex-col bg-gray-200 rounded-lg p-4">
                     <img src={img} alt="Profile" className="w-16 h-16 rounded-full" />
                     <div className="items-center">
                         <p className="text-xl font-semibold text-center">{name}</p>
@@ -29,22 +31,29 @@ const Bookpage = () => {
                         </div>
                     </div>
                 </div>
-                <div className="mb-4">
+                <div className="mb-2">
                     <span className="block">
                         📞 {phoneNumber}
                     </span>
+                    <div className="h-px bg-black w-full mb-2"></div> {/* Black line */}
                 </div>
-                <hr />
                 <div className="mb-4 w-full">
-                    <div>
-                        🕿 {startingPoint}
+                    <div className="flex items-center mb-2">
+                        <span className="mr-2">🚩</span> {/* Icon */}
+                        <span>{startingPoint}</span>
                     </div>
-                    <span>
-                        🏁 {destination}
-                    </span>
-                    <span>
-                        ⏰ {time}
-                    </span>
+                    <div className="flex items-center mb-2">
+                        <span className="mr-2">🏁</span> {/* Icon */}
+                        <span>{destination}</span>
+                    </div>
+                    <div className="ml-10">
+                        <div>⏰ {time}</div>
+                        <div>📅 {date}</div>
+                    </div>
+                    <div className="h-px bg-black w-full mt-2"></div> {/* Black line */}
+                    <div className="mt-4">
+                        Estimated Fare: <span>{estimatedFare}</span>
+                    </div>
                 </div>
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 rounded w-full">
                     Book Ride
