@@ -12,7 +12,9 @@ export default function ProfileView() {
     seat: 4,
     reg_no: "KL84829",
     reviews: [
+
       { name: "Rahul", comment: "It was a wonderful experience travelling with kajjfuhaufahfuhaih jfhafaff  hfuiahfuhau" },
+
       { name: "Jerin", comment: "Nice to drive" },
       { name: "jeslin", comment: "Very Bad Ride" }
     ]
@@ -76,4 +78,6 @@ export default function ProfileView() {
       </div>
     </div>
   );
+
 }
+
