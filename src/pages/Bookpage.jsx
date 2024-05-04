@@ -2,7 +2,7 @@ import  { useState,useEffect } from 'react';
 import img from '../assets/profile pic.svg';
 import { auth, db } from "../firebase/firebase.js";
 import { useParams } from 'react-router-dom';
-import { collection, query, where, getDoc,doc, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDoc,doc, getDocs,addDoc } from 'firebase/firestore';
 const Bookpage = () => {
     const {id} =useParams()
     const [offerData, setOfferData] = useState(null);
@@ -57,7 +57,28 @@ const Bookpage = () => {
             fetchOffererData();
         }
     }, [offerData]);
-
+    const BookRide = async () => {
+        const user = auth.currentUser;
+        if (!auth.currentUser) {
+          console.log("User not authenticated.");
+          return;
+        }
+        try {
+          // Add data to Firestore collection
+          const offerRef = collection(db, 'bookride'); // Ensure the collection name is correct
+          const docRef = await addDoc(offerRef, {
+            ...offerData,
+            passenger: parseInt(offerData.passenger),
+            offerer_email: offerData.offerer_email, // Adding user's email to the input object
+            booker_email: user.email,
+            booker_name: user.displayName,
+            accpeted:false
+          });
+          console.log("Offer successfully with ID: ", docRef.id);
+        } catch (error) {
+          console.error("Error adding data to Firestore: ", error);
+        }
+      }
 
     return (
         <div className="flex  items-center h-screen ">
@@ -112,7 +133,7 @@ const Bookpage = () => {
                         Estimated Fare: <span>10</span>
                     </div>
                 </div>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 rounded w-full">
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 rounded w-full" onClick={BookRide}>
                     Book Ride
                 </button>
             </div> )}

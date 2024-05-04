@@ -84,7 +84,7 @@ export function StickyNavbar() {
             color="blue-gray"
             className="p-1 font-normal text-white"
           >
-            <a href="#" className="flex items-center">
+            <a href="/requests" className="flex items-center">
               Requests
             </a>
           </Typography>
