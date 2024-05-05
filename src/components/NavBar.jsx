@@ -7,9 +7,11 @@ import {
   Collapse,
 } from "@material-tailwind/react";
 import { auth } from "../firebase/firebase";
+import { useNavigate } from "react-router-dom";
 
 export function StickyNavbar() {
   const currentUser = auth.currentUser;
+  const nav = useNavigate();
   const [openNav, setOpenNav] = React.useState(false);
 
   
@@ -94,7 +96,7 @@ export function StickyNavbar() {
   );
 
   return (
-    <div className="w-screen max-h-[768px] overflow-scroll ">
+    <div className=" max-h-[768px]  ">
       <Navbar className="sticky top-0 z-10 h-max max-w-full rounded-none px-4 py-2 lg:px-8 lg:py-4 bg-custom-green border-none bg-opacity-100">
         <div className="flex items-center justify-between text-blue-gray-900">
           <Typography
@@ -154,7 +156,7 @@ export function StickyNavbar() {
                 Log Out
               </Button>
             ) : (
-              <Button variant="text" size="sm">
+              <Button variant="text" size="sm" onClick={()=>nav('/login')}>
                 Log In
               </Button>
             )}
