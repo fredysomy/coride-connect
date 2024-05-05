@@ -8,6 +8,7 @@ import ProfileCreatePage from "./pages/ProfileCreate";
 import ProfileView from "./pages/ProfileView";
 import Bookpage from "./pages/Bookpage";
 import { StickyNavbar } from "./components/NavBar";
+import RiderRequest from "./pages/RiderRequest";
 
 import MainPage from "./pages/MainPage";
 
@@ -34,9 +35,10 @@ function App() {
           <Route path="/review" element={<Review />} />
 
         </Routes>
-      </BrowserRouter>
-    </>
-  );
-}
 
+      </BrowserRouter>
+
+      </> 
+  );
+} 
 export default App;
