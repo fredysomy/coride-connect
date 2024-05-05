@@ -8,6 +8,7 @@ const Bookpage = () => {
     const {id} =useParams()
     const [offerData, setOfferData] = useState(null);
     const [offererData, setOffererData] = useState(null);
+    const [location,setLocation]=useState("");
     const [rating,setRating]=useState(0);
 
     // Function to fetch offer data from Firestore
@@ -73,6 +74,7 @@ const Bookpage = () => {
             offerer_email: offerData.offerer_email, // Adding user's email to the input object
             booker_email: user.email,
             booker_name: user.displayName,
+            drop:location,
             accpeted:false
           });
           console.log("Offer successfully with ID: ", docRef.id);
@@ -124,6 +126,11 @@ const Bookpage = () => {
                     <div className="mt-4">
                         Estimated Fare: <span>{estimatedFare}</span>
                     </div>
+                </div>
+
+                <div className="mb-4">
+                  <label htmlFor="drop" className="block mb-2">Drop Area:</label>
+                  <input type="text" id="drop" className="border border-gray-300 rounded-md p-2 w-full" onChange={(e) => setLocation(e.target.value)} />
                 </div>
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 rounded w-full" onClick={BookRide}>
                     Book Ride
