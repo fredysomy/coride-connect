@@ -85,7 +85,7 @@ const Bookpage = () => {
             {offerData && offererData && (
              <div className="bg-white shadow-lg rounded-lg bg-gray-100 w-full max-w-md p-8">
                 <div className="flex items-center mb-6 flex-col bg-gray-200 rounded-lg p-4">
-                    <img src={img} alt="Profile" className="w-16 h-16 rounded-full" />
+                    <img src={offerData.img || img} alt="Profile" className="w-16 h-16 rounded-full" />
                     <div className="items-center">
                         <p className="text-xl font-semibold text-center">{offererData.name}</p>
                         <div className="flex justify-between w-40">
