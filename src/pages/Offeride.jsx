@@ -1,16 +1,16 @@
 import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import offerimg from "../assets/offerride.svg";
-import {auth, db} from "../firebase/firebase.js";
+import { auth, db } from "../firebase/firebase.js";
 import { collection, addDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 export default function Offerride() {
-  const nav=useNavigate()
+  const nav = useNavigate();
   const [input, setInput] = useState({
     pick: "",
     drop: "",
-    active:false,
-    type:"",
+    active: false,
+    type: "",
     time: "",
     passenger: 1,
     interpoint: [],
@@ -43,15 +43,14 @@ export default function Offerride() {
 
     try {
       // Add data to Firestore collection
-      const offerRef = collection(db, 'offerride'); // Ensure the collection name is correct
+      const offerRef = collection(db, "offerride"); // Ensure the collection name is correct
       const docRef = await addDoc(offerRef, {
         ...input,
         passenger: parseInt(input.passenger),
-        offerer_email: user.email // Adding user's email to the input object
+        offerer_email: user.email, // Adding user's email to the input object
       });
       console.log("Offer successfully with ID: ", docRef.id);
-      nav('/home')
-
+      nav("/home");
     } catch (error) {
       console.error("Error adding data to Firestore: ", error);
     }
@@ -140,7 +139,6 @@ export default function Offerride() {
               ))}
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="flex gap-3">
-                
                   <div>
                     <label
                       htmlFor="time"
@@ -158,7 +156,7 @@ export default function Offerride() {
                   </div>
                 </div>
                 <div>
-                <label
+                  <label
                     htmlFor="type"
                     className="block text-sm font-medium text-gray-700"
                   >
@@ -173,7 +171,6 @@ export default function Offerride() {
                   >
                     <option>Car</option>
                     <option>Bike</option>
-                   
                   </select>
                   <label
                     htmlFor="passengers"

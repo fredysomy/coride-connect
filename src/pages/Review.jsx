@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import RatingStars from 'react-rating-stars-component';
+import React, { useState } from "react";
+import RatingStars from "react-rating-stars-component";
 
 export default function Review() {
   const [formData, setFormData] = useState({ text: "", rating: 0 });
@@ -13,7 +13,12 @@ export default function Review() {
   };
 
   const handleSubmit = () => {
-    console.log("Form submitted with feedback:", formData.text, "and rating:", formData.rating);
+    console.log(
+      "Form submitted with feedback:",
+      formData.text,
+      "and rating:",
+      formData.rating,
+    );
     // Clear the feedback input field and reset rating
     setFormData({ text: "", rating: 0 });
     // Reload the page
@@ -30,7 +35,7 @@ export default function Review() {
             className="mx-auto py-2 w-24 h-30 rounded-full"
           />
           <p className="text-xl font-semibold mb-1">Irine Ann Jikku</p>
-        
+
           <RatingStars
             count={5}
             size={24}
@@ -38,11 +43,13 @@ export default function Review() {
             onChange={handleRating}
             activeColor="#000"
           />
-          
+
           <p className="text-xl font-semibold mb-1 ml-2">{formData.rating}/5</p>
         </div>
       </div>
-      <h4 className="text-lg font-semibold mb-4 text-center">Provide Feedback</h4>
+      <h4 className="text-lg font-semibold mb-4 text-center">
+        Provide Feedback
+      </h4>
       <textarea
         value={formData.text}
         onChange={handleChange}

@@ -14,11 +14,10 @@ export function StickyNavbar() {
   const nav = useNavigate();
   const [openNav, setOpenNav] = React.useState(false);
 
-  
   React.useEffect(() => {
     window.addEventListener(
       "resize",
-      () => window.innerWidth >= 960 && setOpenNav(false)
+      () => window.innerWidth >= 960 && setOpenNav(false),
     );
   }, []);
   const [user, setUser] = useState(null);
@@ -166,7 +165,7 @@ export function StickyNavbar() {
                 Log Out
               </Button>
             ) : (
-              <Button variant="text" size="sm" onClick={()=>nav('/login')}>
+              <Button variant="text" size="sm" onClick={() => nav("/login")}>
                 Log In
               </Button>
             )}

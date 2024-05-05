@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../firebase/firebase";
-import { collection, query, where, getDoc, doc,updateDoc } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDoc,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 import { useParams } from "react-router-dom";
 
 const RiderRequest = () => {
@@ -27,48 +34,48 @@ const RiderRequest = () => {
   const AcceptBooking = async () => {
     console.log(request);
     try {
-        // Fetch the offer document reference
-        const offerRef = doc(collection(db, "offerride"), request.offer_id);
-        const offerDocSnapshot = await getDoc(offerRef);
-        
-        if (offerDocSnapshot.exists()) {
-            const offerData = offerDocSnapshot.data();
-            if (offerData.passenger > 0) {
-                // Reduce the passenger count
-                const newPassenger = offerData.passenger - 1;
-                await updateDoc(offerRef, { passenger: newPassenger });
-                
-                // Update the bookride document status
-                const bookRef = doc(collection(db, "bookride"), request.id);
-                await updateDoc(bookRef, { status: "accepted" });
-                
-                // Send notification
-                const url = "https://svps-backend-99c87df9aa95.herokuapp.com/send-notification";
-                const options = {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        email: request.booker_email,
-                        title: "Ride Accepted",
-                        body: "Congrats your ride has been accepted",
-                        url: "http://localhost:5173/requests"
-                    })
-                };
+      // Fetch the offer document reference
+      const offerRef = doc(collection(db, "offerride"), request.offer_id);
+      const offerDocSnapshot = await getDoc(offerRef);
 
-                const response = await fetch(url, options);
-                const data = await response.json();
-                console.log(data);
-            } else {
-                alert("You have exhausted the passenger limit")
-            }
+      if (offerDocSnapshot.exists()) {
+        const offerData = offerDocSnapshot.data();
+        if (offerData.passenger > 0) {
+          // Reduce the passenger count
+          const newPassenger = offerData.passenger - 1;
+          await updateDoc(offerRef, { passenger: newPassenger });
+
+          // Update the bookride document status
+          const bookRef = doc(collection(db, "bookride"), request.id);
+          await updateDoc(bookRef, { status: "accepted" });
+
+          // Send notification
+          const url =
+            "https://svps-backend-99c87df9aa95.herokuapp.com/send-notification";
+          const options = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: request.booker_email,
+              title: "Ride Accepted",
+              body: "Congrats your ride has been accepted",
+              url: "http://localhost:5173/requests",
+            }),
+          };
+
+          const response = await fetch(url, options);
+          const data = await response.json();
+          console.log(data);
         } else {
-            console.log("Offer document not found");
+          alert("You have exhausted the passenger limit");
         }
+      } else {
+        console.log("Offer document not found");
+      }
     } catch (error) {
-        console.error("Error accepting booking:", error);
+      console.error("Error accepting booking:", error);
     }
-};
-
+  };
 
   const RejectBooking = async () => {
     console.log(id);
@@ -77,7 +84,8 @@ const RiderRequest = () => {
     await updateDoc(bookRef, {
       status: "rejected",
     });
-    const url = "https://svps-backend-99c87df9aa95.herokuapp.com/send-notification";
+    const url =
+      "https://svps-backend-99c87df9aa95.herokuapp.com/send-notification";
     const options = {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -91,7 +99,7 @@ const RiderRequest = () => {
     } catch (error) {
       console.error(error);
     }
-};
+  };
 
   if (!request) {
     return <div>Loading...</div>;

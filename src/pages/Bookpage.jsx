@@ -48,12 +48,12 @@ const Bookpage = () => {
           console.log(profileDocSnap.docs[0].data());
           setRating(
             profileDocSnap.docs[0].data().rating.reduce((a, b) => a + b, 0) /
-              profileDocSnap.docs[0].data().rating.length || 0
+              profileDocSnap.docs[0].data().rating.length || 0,
           );
         } else {
           console.log(
             "No profile document found for offerer email:",
-            offererEmail
+            offererEmail,
           );
         }
       }
@@ -91,7 +91,7 @@ const Bookpage = () => {
         booker_name: user.displayName,
         status: "pending",
         drop: location,
-        offer_id:id,
+        offer_id: id,
         accpeted: false,
       });
       console.log("Offer successfully with ID: ", docRef.id);

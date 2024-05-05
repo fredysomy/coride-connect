@@ -14,13 +14,13 @@ const firebaseConfig = {
   projectId: "hgfg-75aa5",
   storageBucket: "hgfg-75aa5.appspot.com",
   messagingSenderId: "783385628961",
-  appId: "1:783385628961:web:8a5704e3e035600811ae60"
+  appId: "1:783385628961:web:8a5704e3e035600811ae60",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-const provider= new GoogleAuthProvider();
+const provider = new GoogleAuthProvider();
 
 export const auth = getAuth(app);
 export const db = getFirestore(app);
