@@ -61,4 +61,4 @@ const RiderRequest = () => {
     );
 }
 
-export default Bookpage;
+export default RiderRequest;

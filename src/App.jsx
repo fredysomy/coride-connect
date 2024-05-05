@@ -28,7 +28,7 @@ function App() {
           <Route path="/home" element={<HomePage />} />
           <Route path="/profile/create" element={<ProfileCreatePage />} />
           <Route path="/profile/view" element={<ProfileView />} />
-
+          <Route path="/request/:id" element={<RiderRequest />} />
           <Route path="/book_ride/:id" element={<Bookpage/>}/>
           <Route path="/requests" element={<Requests/>}/>
           <Route path="/offerride" element={<Offerride/>} />
