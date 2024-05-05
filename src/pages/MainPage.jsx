@@ -8,7 +8,7 @@ function MainPage() {
         <h1 className="text-4xl font-bold mb-4 text-gray-900">
           CO-RIDE CONNECT
         </h1>
-        <p className="text-2xl text-black-300">
+        <p className="text-2xl text-black-300 text-center">
           Share the wheel, share the thrill! Carpooling: Making miles, making
           friends.
         </p>

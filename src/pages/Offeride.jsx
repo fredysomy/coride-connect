@@ -10,6 +10,7 @@ export default function Offerride() {
     pick: "",
     drop: "",
     active:false,
+    type:"",
     time: "",
     passenger: 1,
     interpoint: [],
@@ -157,6 +158,23 @@ export default function Offerride() {
                   </div>
                 </div>
                 <div>
+                <label
+                    htmlFor="type"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Vehicle
+                  </label>
+                  <select
+                    id="type"
+                    className="mt-1 block w-25 pl-3 pr-10 py-2 text-base border-gray-500 focus:outline-none sm:text-sm rounded-md"
+                    type="text"
+                    name="type"
+                    onChange={handleInputChange}
+                  >
+                    <option>Car</option>
+                    <option>Bike</option>
+                   
+                  </select>
                   <label
                     htmlFor="passengers"
                     className="block text-sm font-medium text-gray-700"
