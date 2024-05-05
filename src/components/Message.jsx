@@ -1,3 +1,5 @@
+import "../assets/message.css";
+
 const Message = ({ notification }) => {
     return (
       <>

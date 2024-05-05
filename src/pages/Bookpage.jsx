@@ -89,6 +89,7 @@ const Bookpage = () => {
         offerer_email: offerData.offerer_email, // Adding user's email to the input object
         booker_email: user.email,
         booker_name: user.displayName,
+        status: "pending",
         drop: location,
         offer_id:id,
         accpeted: false,
