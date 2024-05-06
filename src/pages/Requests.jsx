@@ -43,7 +43,7 @@ export default function Requests() {
 
         console.log("Filtered requests:", filteredRequests);
 
-        setRequests(filteredRequests.filter((request) => request.status !== "pending"));
+        setRequests(filteredRequests.filter((request) => request.status == "pending"));
         console.log(requests);
       } else {
         console.log("No matching documents found.");
@@ -57,10 +57,10 @@ export default function Requests() {
     <div className="max-w-lg mx-auto">
   <h2 className="text-center font-sans text-2xl my-5">Requests</h2>
 
-  {requests.length > 0 &&
+  {requests &&
     requests.map(
       (request) =>
-        request.status !== "rejected" && (
+        (
           <div
             key={request.id}
             className="bg-white rounded-lg shadow-md p-6 mb-6"
