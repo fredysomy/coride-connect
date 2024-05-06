@@ -43,7 +43,7 @@ export default function Requests() {
 
         console.log("Filtered requests:", filteredRequests);
 
-        setRequests(filteredRequests);
+        setRequests(filteredRequests.filter((request) => request.status !== "pending"));
         console.log(requests);
       } else {
         console.log("No matching documents found.");
@@ -54,32 +54,36 @@ export default function Requests() {
   };
 
   return (
-    <div>
-      <h2 className="text-center font-sans text-2xl my-5">Requests</h2>
+    <div className="max-w-lg mx-auto">
+  <h2 className="text-center font-sans text-2xl my-5">Requests</h2>
 
-      {requests.length > 0 &&
-        requests.map(
-          (request) =>
-            request.status !== "rejected" && (
-              <div
-                key={request.id}
-                className="bg-white rounded shadow-md p-4 mb-4"
-              >
-                <div className="text-lg font-semibold mb-2">
-                  Booker Name: {request.booker_name}
-                </div>
-                <div className="text-gray-600 mb-2">
-                  Booker Email: {request.booker_email}
-                </div>
-                <button
-                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring focus:ring-blue-200"
-                  onClick={() => nav(`/request/${request.id}`)}
-                >
-                  Review Request
-                </button>
-              </div>
-            ),
-        )}
-    </div>
+  {requests.length > 0 &&
+    requests.map(
+      (request) =>
+        request.status !== "rejected" && (
+          <div
+            key={request.id}
+            className="bg-white rounded-lg shadow-md p-6 mb-6"
+          >
+            <div className="text-lg font-semibold mb-4">
+              Booker Name: {request.booker_name}
+            </div>
+            <div className="text-gray-600 mb-2">
+              Booker Email: {request.booker_email}
+            </div>
+            <div className="text-gray-600 mb-2">
+              Drop: {request.drop}
+            </div>
+            <button
+              className="bg-custom-green text-white font-semibold py-2 px-4 rounded focus:outline-none focus:ring focus:ring-blue-200"
+              onClick={() => nav(`/request/${request.id}`)}
+            >
+              Review Request
+            </button>
+          </div>
+        )
+    )}
+</div>
+
   );
 }

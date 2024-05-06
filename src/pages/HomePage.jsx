@@ -21,7 +21,7 @@ export default function HomePage() {
         ridesQuerySnapshot.forEach((doc) => {
           ridesData.push({...doc.data(),docId:doc.id});
         });
-        setData(ridesData);
+        setData(ridesData.filter((ride)=>ride.active==true));
       } catch (error) {
         console.error("Error fetching rides data:", error);
       }

@@ -166,6 +166,7 @@ export default function Offerride() {
                     id="type"
                     className="mt-1 block w-25 pl-3 pr-10 py-2 text-base border-gray-500 focus:outline-none sm:text-sm rounded-md"
                     type="text"
+                    value={input.type}
                     name="type"
                     onChange={handleInputChange}
                   >

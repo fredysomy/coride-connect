@@ -30,6 +30,7 @@ import MyRides from "./pages/MyRides.jsx";
 import Message from "./components/Message";
 import "react-toastify/dist/ReactToastify.css";
 import { Toaster, toast } from 'sonner'
+import Rides from "./pages/Rides.jsx";
 
 // ...
 
@@ -115,6 +116,7 @@ function App() {
           <Route path="/offerride" element={<Offerride />} />
           <Route path="/review" element={<Review />} />
           <Route path="/myrides" element={<MyRides />} />
+          <Route path="/rides" element={<Rides />} />
         </Routes>
       </BrowserRouter>
     </>

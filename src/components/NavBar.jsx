@@ -99,6 +99,17 @@ export function StickyNavbar() {
               Requests
             </a>
           </Typography>
+          <Typography
+            as="li"
+            variant="small"
+            color="blue-gray"
+            className="p-1 font-normal text-white"
+          >
+            <a href="/rides" className="flex items-center">
+              Bookings
+            </a>
+          </Typography>
+          
         </>
       )}
     </ul>
