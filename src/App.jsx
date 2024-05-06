@@ -21,7 +21,6 @@ import ProfileView from "./pages/ProfileView";
 import Bookpage from "./pages/Bookpage";
 import { StickyNavbar } from "./components/NavBar";
 import RiderRequest from "./pages/RiderRequest";
-import { toast, ToastContainer } from "react-toastify";
 import MainPage from "./pages/MainPage";
 
 import Offerride from "./pages/Offeride.jsx";
@@ -30,6 +29,11 @@ import Requests from "./pages/Requests.jsx";
 import MyRides from "./pages/MyRides.jsx";
 import Message from "./components/Message";
 import "react-toastify/dist/ReactToastify.css";
+import { Toaster, toast } from 'sonner'
+
+// ...
+
+
 
 function App() {
   async function requestPermission(email) {
@@ -80,7 +84,9 @@ function App() {
   }
 
   onMessage(messaging, (payload) => {
-    toast(<Message notification={payload.notification} />);
+    toast.message(payload.notification.title, {
+      description: payload.notification.body,
+    })
   });
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -94,7 +100,7 @@ function App() {
 
   return (
     <>
-      <ToastContainer />
+     <Toaster  position="top-center" />
       <BrowserRouter>
         <StickyNavbar />
         <Routes>

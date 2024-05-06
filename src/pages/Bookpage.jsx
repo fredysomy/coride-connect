@@ -100,7 +100,7 @@ const Bookpage = () => {
       const options = {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: `{"email":"${offerData.offerer_email}","title":"New Ride request","You have a new ride request from ${user.displayName}":"sadasd","url":"http://ocalhost:5173/requests"}`,
+        body: `{"email":"${offerData.offerer_email}","title":"New Ride request","body":"You have a new ride request from ${user.displayName}","url":"http://ocalhost:5173/requests"}`,
       };
 
       try {

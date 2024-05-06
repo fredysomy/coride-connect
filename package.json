@@ -22,7 +22,8 @@
     "react-rating-stars-component": "^2.2.0",
     "react-router-dom": "^6.22.3",
     "react-time-picker": "^6.6.0",
-    "react-toastify": "^10.0.5"
+    "react-toastify": "^10.0.5",
+    "sonner": "^1.4.41"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
