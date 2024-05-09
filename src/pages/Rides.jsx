@@ -8,7 +8,10 @@ import {
   updateDoc,
   doc,
 } from "firebase/firestore";
+import { useNavigate,useParams } from "react-router-dom";
 export default function Rides() {
+  const {id}=useParams()
+  const nav = useNavigate();
   const [booking, setBooking] = useState([]);
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -57,7 +60,7 @@ export default function Rides() {
              Status: {ride.status.toUpperCase()}
           </span>
           {ride.status === "accepted" && (
-            <button className="mt-2 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md">
+            <button className="mt-2 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md" onClick={()=>nav(`/review/${ride.id}`)}>
               Complete Ride
             </button>
           )}

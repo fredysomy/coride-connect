@@ -107,17 +107,16 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="/login" element={<LoginPage />} />
 
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/profile/create" element={<ProfileCreatePage />} />
-            <Route path="/profile/view" element={<ProfileView />} />
-            <Route path="/request/:id" element={<RiderRequest />} />
-            <Route path="/book_ride/:id" element={<Bookpage />} />
-            <Route path="/requests" element={<Requests />} />
-            <Route path="/offerride" element={<Offerride />} />
-            <Route path="/review" element={<Review />} />
-            <Route path="/myrides" element={<MyRides />} />
-            <Route path="/rides" element={<Rides />} />
-          
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/profile/create" element={<ProfileCreatePage />} />
+          <Route path="/profile/view" element={<ProfileView />} />
+          <Route path="/request/:id" element={<RiderRequest />} />
+          <Route path="/book_ride/:id" element={<Bookpage />} />
+          <Route path="/requests" element={<Requests />} />
+          <Route path="/offerride" element={<Offerride />} />
+          <Route path="/review/:id" element={<Review />} />
+          <Route path="/myrides" element={<MyRides />} />
+          <Route path="/rides" element={<Rides />} />
         </Routes>
       </BrowserRouter>
     </>

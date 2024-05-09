@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import img from "../assets/profile pic.svg";
+import axios from "axios";
 
 import { auth, db } from "../firebase/firebase.js";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+
+import Autocomplete from "react-google-autocomplete";
 import {
   collection,
   query,
@@ -14,10 +17,13 @@ import {
 } from "firebase/firestore";
 const Bookpage = () => {
   const { id } = useParams();
+  const nav = useNavigate();
   const [offerData, setOfferData] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [offererData, setOffererData] = useState(null);
   const [location, setLocation] = useState("");
   const [rating, setRating] = useState(0);
+  const [fare, setFare] = useState(0);
 
   // Function to fetch offer data from Firestore
   const fetchOfferData = async () => {
@@ -48,12 +54,12 @@ const Bookpage = () => {
           console.log(profileDocSnap.docs[0].data());
           setRating(
             profileDocSnap.docs[0].data().rating.reduce((a, b) => a + b, 0) /
-              profileDocSnap.docs[0].data().rating.length || 0,
+              profileDocSnap.docs[0].data().rating.length || 0
           );
         } else {
           console.log(
             "No profile document found for offerer email:",
-            offererEmail,
+            offererEmail
           );
         }
       }
@@ -73,6 +79,28 @@ const Bookpage = () => {
       fetchOffererData();
     }
   }, [offerData]);
+  const calculateFare = async (abc) => {
+    const options = {
+      method: "POST",
+      url: "http://localhost:3000/get_fare",
+      headers: { "content-type": "application/json" },
+
+      data: {
+        destinations: abc,
+        origins: offerData.pick,
+        units: "metric",
+        key: "AIzaSyDjLpn8fDYOJJ9Yj7PVsJzslIiVfk2iiHg",
+      },
+    };
+
+    try {
+      const { data } = await axios.request(options);
+      const fare = (data.rows[0].elements[0].distance.value / 1000 / 35) * 100;
+      setFare(fare.toFixed(2));
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const BookRide = async () => {
     const user = auth.currentUser;
     if (!auth.currentUser) {
@@ -80,6 +108,7 @@ const Bookpage = () => {
       return;
     }
     try {
+      setLoading(true);
       // Add data to Firestore collection
       const offerRef = collection(db, "bookride"); // Ensure the collection name is correct
       const docRef = await addDoc(offerRef, {
@@ -90,6 +119,7 @@ const Bookpage = () => {
         booker_email: user.email,
         booker_name: user.displayName,
         status: "pending",
+        fare: fare,
         drop: location,
         offer_id: id,
         accpeted: false,
@@ -106,6 +136,7 @@ const Bookpage = () => {
       try {
         const response = await fetch(url, options);
         alert("Ride request is sent");
+        nav("/rides");
       } catch (error) {
         console.error(error);
       }
@@ -149,7 +180,7 @@ const Bookpage = () => {
           <div className="mb-4 w-full">
             <div className="flex items-center mb-2">
               <span className="mr-2">🚩</span>
-              <span className="text-3xl">{offerData.pick}</span>
+              <span className="text-2xl">{offerData.pick.split(",")[0]}</span>
             </div>
             <div className="ml-10">
               {offerData.interpoint.map((point, index) => (
@@ -161,33 +192,39 @@ const Bookpage = () => {
             </div>
             <div className="flex items-center mb-2">
               <span className="mr-2">🏁</span>
-              <span className="text-3xl">{offerData.drop}</span>
+              <span className="text-2xl">{offerData.drop.split(",")[0]}</span>
             </div>
             <div className="">
               <span>⏰ {offerData.time}</span>
             </div>
             <div className="h-px bg-black w-full mt-2"></div>
-            <div className="mt-4">
-              Estimated Fare: <span>10</span>
-            </div>
           </div>
 
           <div className="mb-4">
             <label htmlFor="drop" className="block mb-2">
               Drop Area:
             </label>
-            <input
-              type="text"
-              id="drop"
-              className="border border-gray-300 rounded-md p-2 w-full"
-              onChange={(e) => setLocation(e.target.value)}
+            <Autocomplete
+              apiKey={"AIzaSyDjLpn8fDYOJJ9Yj7PVsJzslIiVfk2iiHg"}
+              options={{
+                componentRestrictions: { country: "in" },
+              }}
+              onPlaceSelected={(place) => {
+                setLocation(place.formatted_address);
+                calculateFare(place.formatted_address);
+              }}
             />
           </div>
+          <div className="mt-4">
+            Estimated Fare: <span>{fare}</span>
+          </div>
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 rounded w-full"
-            onClick={BookRide}
+            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 rounded w-full ${
+              loading ? "cursor-not-allowed opacity-50" : ""
+            }`}
+            onClick={loading ? null : BookRide} // Disable onClick when loading
           >
-            Book Ride
+            {loading ? "Booking..." : "Book Ride"}
           </button>
         </div>
       )}

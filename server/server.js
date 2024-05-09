@@ -4,6 +4,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const admin = require("firebase-admin");
+const axios = require("axios");
 const cors = require("cors");
 // Initialize Firebase Admin SDK
 const serviceAccount = require("./serviceAccountKey.json"); // Path to your service account key file
@@ -68,6 +69,33 @@ app.post("/send-notification", async (req, res) => {
   }
 });
 
+
+app.post("/get_fare",async (req,res)=>{
+
+  const options = {
+    method: 'GET',
+    url: 'https://maps.googleapis.com/maps/api/distancematrix/json',
+    params: {
+      destinations: req.body.destinations,
+      origins: req.body.origins,
+      units: 'metric',
+      key: 'AIzaSyDjLpn8fDYOJJ9Yj7PVsJzslIiVfk2iiHg'
+    }
+  };
+  
+  try {
+    const { data } = await axios.request(options);
+    console.log(options)
+    res.json(data)
+  } catch (error) {
+    console.log(error)
+    res.json({error:error})
+  }
+ 
+})
+app.get("/",(req,res)=>{
+  res.send("Hii")
+})
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

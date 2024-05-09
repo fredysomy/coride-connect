@@ -2,16 +2,20 @@ import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import offerimg from "../assets/offerride.svg";
 import { auth, db } from "../firebase/firebase.js";
+import Autocomplete from "react-google-autocomplete";
 import { collection, addDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 export default function Offerride() {
   const nav = useNavigate();
+  const [pick,setPick]=useState("")
+  const [drop,setDrop]=useState("")
+  const [type,setType]=useState("")
+  const [loading,setLoading]=useState(false)
   const [input, setInput] = useState({
-    pick: "",
-    drop: "",
     active: false,
-    type: "",
     time: "",
+    type:"",
+    mileage:0,
     passenger: 1,
     interpoint: [],
   });
@@ -46,6 +50,8 @@ export default function Offerride() {
       const offerRef = collection(db, "offerride"); // Ensure the collection name is correct
       const docRef = await addDoc(offerRef, {
         ...input,
+        drop:drop,
+        pick:pick,
         passenger: parseInt(input.passenger),
         offerer_email: user.email, // Adding user's email to the input object
       });
@@ -80,14 +86,14 @@ export default function Offerride() {
                   >
                     Pickup Location
                   </label>
-                  <input
-                    id="pickup-location"
-                    name="pick"
-                    type="text"
-                    placeholder="Enter pickup location"
-                    className="mt-1 h-8 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                    value={input.pick}
-                    onChange={handleInputChange}
+                  <Autocomplete
+                    apiKey={"AIzaSyDjLpn8fDYOJJ9Yj7PVsJzslIiVfk2iiHg"}
+                    options={{
+                      componentRestrictions: { country: "in" },
+                    }}
+                    onPlaceSelected={(place) => {
+                     setPick(place.formatted_address)
+                    }}
                   />
                 </div>
                 <div>
@@ -97,14 +103,14 @@ export default function Offerride() {
                   >
                     Drop-off Location
                   </label>
-                  <input
-                    id="drop-location"
-                    name="drop"
-                    type="text"
-                    placeholder="Enter drop-off location"
-                    className="mt-1 h-8 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                    value={input.drop}
-                    onChange={handleInputChange}
+                  <Autocomplete
+                    apiKey={"AIzaSyDjLpn8fDYOJJ9Yj7PVsJzslIiVfk2iiHg"}
+                    options={{
+                      componentRestrictions: { country: "in" },
+                    }}
+                    onPlaceSelected={(place) => {
+                      setDrop(place.formatted_address)
+                    }}
                   />
                 </div>
               </div>
@@ -119,14 +125,16 @@ export default function Offerride() {
               </div>
               {input.interpoint.map((point, index) => (
                 <div className="flex items-center" key={index}>
-                  <input
-                    type="text"
-                    placeholder="Enter intermediate point"
-                    className="mt-1 h-8 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                    value={point}
-                    onChange={(e) =>
-                      handleIntermediatePointChange(index, e.target.value)
-                    }
+                  <Autocomplete
+                    apiKey={"AIzaSyDjLpn8fDYOJJ9Yj7PVsJzslIiVfk2iiHg"}
+                    options={{
+                      componentRestrictions: { country: "in" },
+                    }}
+                    onPlaceSelected={(place) => {
+                      const updatedPoint = [...input.interpoint];
+                      updatedPoint[index] = place.formatted_address;
+                      setInput({ ...input, interpoint: updatedPoint });
+                    }}
                   />
                   <button
                     type="button"
@@ -170,9 +178,25 @@ export default function Offerride() {
                     name="type"
                     onChange={handleInputChange}
                   >
-                    <option>Car</option>
-                    <option>Bike</option>
+                     <option value="choose" >Choose Vehicle</option>
+                    <option value="Bike">Bike</option>
+                    <option value="Car">Car</option>
                   </select>
+                  <div>
+                  <label
+                    htmlFor="drop-location"
+                    className="block text-sm font-medium "
+                  >
+                   Mileage
+                  </label>
+                  <input
+                      type="number"
+                      id="mileage"
+                      name="mileage"
+                      value={input.mileage}
+                      onChange={handleInputChange}
+                    />
+                </div>
                   <label
                     htmlFor="passengers"
                     className="block text-sm font-medium text-gray-700"
@@ -186,13 +210,11 @@ export default function Offerride() {
                     name="passenger"
                     onChange={handleInputChange}
                   >
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                    <option>6</option>
-                    <option>7</option>
+                    <option value={1}>1</option>
+                    <option value={2}>2</option>
+                    <option value={3}>3</option>
+                    <option value={4}>4</option>
+                   
                   </select>
                 </div>
               </div>

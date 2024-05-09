@@ -8,11 +8,14 @@ import {
   doc,
   updateDoc,
 } from "firebase/firestore";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const RiderRequest = () => {
   const { id } = useParams();
+  const nav = useNavigate();
   const [request, setRequest] = useState(null);
+  const [accepting, setAccepting] = useState(false);
+  const [rejecting, setRejecting] = useState(false);
 
   useEffect(() => {
     const fetchRequest = async () => {
@@ -34,6 +37,7 @@ const RiderRequest = () => {
   const AcceptBooking = async () => {
     console.log(request);
     try {
+      setAccepting(true);
       // Fetch the offer document reference
       const offerRef = doc(collection(db, "offerride"), request.offer_id);
       const offerDocSnapshot = await getDoc(offerRef);
@@ -75,9 +79,12 @@ const RiderRequest = () => {
     } catch (error) {
       console.error("Error accepting booking:", error);
     }
+    setAccepting(false);
+    nav("/requests");
   };
 
   const RejectBooking = async () => {
+    setRejecting(true);
     console.log(id);
     const bookRef = await doc(collection(db, "bookride"), id);
     console.log(bookRef);
@@ -99,6 +106,8 @@ const RiderRequest = () => {
     } catch (error) {
       console.error(error);
     }
+    setRejecting(false);
+    nav("/requests");
   };
 
   if (!request) {
@@ -113,7 +122,7 @@ const RiderRequest = () => {
     time,
     date,
     img,
-    estimatedFare,
+    fare,
     age,
     home,
     passenger,
@@ -162,20 +171,24 @@ const RiderRequest = () => {
         </div>
         <div className="h-px bg-black w-full mt-2 mb-2"></div>
         <div className="mt-4">
-          Estimated Fare: <span>{estimatedFare}</span>
+          Estimated Fare: <span>{fare}</span>
         </div>
         <div className="flex justify-between mt-4">
           <button
-            className="bg-custom-green text-white font-bold py-2 px-4 rounded"
-            onClick={() => AcceptBooking()}
+            className={`bg-custom-green text-white font-bold py-2 px-4 rounded ${
+              accepting ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            onClick={accepting ? null : AcceptBooking} // Disable onClick when accepting
           >
-            Accept
+            {accepting ? "Accepting..." : "Accept"}
           </button>
           <button
-            className="bg-custom-green text-white font-bold py-2 px-4 rounded"
-            onClick={() => RejectBooking()}
+            className={`bg-custom-green text-white font-bold py-2 px-4 rounded ${
+              rejecting ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            onClick={rejecting ? null : RejectBooking} // Disable onClick when rejecting
           >
-            Reject
+            {rejecting ? "Rejecting..." : "Reject"}
           </button>
         </div>
       </div>
