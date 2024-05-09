@@ -29,12 +29,11 @@ import Requests from "./pages/Requests.jsx";
 import MyRides from "./pages/MyRides.jsx";
 import Message from "./components/Message";
 import "react-toastify/dist/ReactToastify.css";
-import { Toaster, toast } from 'sonner'
+import { Toaster, toast } from "sonner";
 import Rides from "./pages/Rides.jsx";
 
 // ...
-
-
+import ProtectedRoute from "./components/auth_HOC.jsx";
 
 function App() {
   async function requestPermission(email) {
@@ -50,7 +49,7 @@ function App() {
         // Construct the query for the tokens collection
         const tokenQuery = query(
           collection(db, "tokens"),
-          where("email", "==", email),
+          where("email", "==", email)
         );
 
         // Execute the query to get the snapshot of documents matching the query condition
@@ -87,7 +86,7 @@ function App() {
   onMessage(messaging, (payload) => {
     toast.message(payload.notification.title, {
       description: payload.notification.body,
-    })
+    });
   });
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -101,22 +100,24 @@ function App() {
 
   return (
     <>
-     <Toaster  position="top-center" />
+      <Toaster position="top-center" />
       <BrowserRouter>
         <StickyNavbar />
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/profile/create" element={<ProfileCreatePage />} />
-          <Route path="/profile/view" element={<ProfileView />} />
-          <Route path="/request/:id" element={<RiderRequest />} />
-          <Route path="/book_ride/:id" element={<Bookpage />} />
-          <Route path="/requests" element={<Requests />} />
-          <Route path="/offerride" element={<Offerride />} />
-          <Route path="/review" element={<Review />} />
-          <Route path="/myrides" element={<MyRides />} />
-          <Route path="/rides" element={<Rides />} />
+
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/profile/create" element={<ProfileCreatePage />} />
+            <Route path="/profile/view" element={<ProfileView />} />
+            <Route path="/request/:id" element={<RiderRequest />} />
+            <Route path="/book_ride/:id" element={<Bookpage />} />
+            <Route path="/requests" element={<Requests />} />
+            <Route path="/offerride" element={<Offerride />} />
+            <Route path="/review" element={<Review />} />
+            <Route path="/myrides" element={<MyRides />} />
+            <Route path="/rides" element={<Rides />} />
+          
         </Routes>
       </BrowserRouter>
     </>

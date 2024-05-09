@@ -21,7 +21,7 @@ export default function HomePage() {
         ridesQuerySnapshot.forEach((doc) => {
           ridesData.push({...doc.data(),docId:doc.id});
         });
-        setData(ridesData.filter((ride)=>ride.active==true));
+        setData(ridesData.filter((ride)=>ride.active==true && ride.passenger>0));
       } catch (error) {
         console.error("Error fetching rides data:", error);
       }
@@ -34,7 +34,7 @@ export default function HomePage() {
   if (!data || Object.keys(data).length === 0) {
     return <div className="flex justify-center font-semibold">Loading...</div>;
   }
-
+  
   return (
     <div className="flex flex-col items-center space-y-4 p-2">
     
