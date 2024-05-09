@@ -31,8 +31,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { Toaster, toast } from "sonner";
 import Rides from "./pages/Rides.jsx";
 
-
-
 function App() {
   async function requestPermission(email) {
     try {
@@ -47,7 +45,7 @@ function App() {
         // Construct the query for the tokens collection
         const tokenQuery = query(
           collection(db, "tokens"),
-          where("email", "==", email)
+          where("email", "==", email),
         );
 
         // Execute the query to get the snapshot of documents matching the query condition

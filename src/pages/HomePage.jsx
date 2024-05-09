@@ -1,5 +1,5 @@
-import  { useState, useEffect } from "react";
-import {  getDocs, collection } from "firebase/firestore";
+import { useState, useEffect } from "react";
+import { getDocs, collection } from "firebase/firestore";
 import { db } from "../firebase/firebase.js";
 import { useNavigate } from "react-router-dom";
 import Car from "../assets/Card/car.svg";
@@ -9,7 +9,7 @@ import clock from "../assets/Card/Clock.svg";
 
 export default function HomePage() {
   const [data, setData] = useState({});
-  const nav=useNavigate()
+  const nav = useNavigate();
 
   useEffect(() => {
     const fetchRidesData = async () => {
@@ -18,9 +18,11 @@ export default function HomePage() {
         const ridesQuerySnapshot = await getDocs(ridesCollectionRef);
         const ridesData = [];
         ridesQuerySnapshot.forEach((doc) => {
-          ridesData.push({...doc.data(),docId:doc.id});
+          ridesData.push({ ...doc.data(), docId: doc.id });
         });
-        setData(ridesData.filter((ride)=>ride.active==true && ride.passenger>0));
+        setData(
+          ridesData.filter((ride) => ride.active == true && ride.passenger > 0),
+        );
       } catch (error) {
         console.error("Error fetching rides data:", error);
       }
@@ -31,12 +33,15 @@ export default function HomePage() {
   console.log(data);
 
   if (!data || Object.keys(data).length === 0) {
-    return <div className="flex justify-center font-semibold">No Data to show now</div>;
+    return (
+      <div className="flex justify-center font-semibold">
+        No Data to show now
+      </div>
+    );
   }
-  
+
   return (
     <div className="flex flex-col items-center space-y-4 p-2">
-    
       {data &&
         data.map((ride, index) => (
           <div
@@ -67,7 +72,10 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="flex flex-col justify-end ">
-                <button className="bg-custom-green text-white h-7 w-12 rounded-2xl" onClick={()=>nav(`/book_ride/${ride.docId}`)}>
+                <button
+                  className="bg-custom-green text-white h-7 w-12 rounded-2xl"
+                  onClick={() => nav(`/book_ride/${ride.docId}`)}
+                >
                   Ride
                 </button>
               </div>

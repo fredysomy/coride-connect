@@ -114,10 +114,7 @@ export default function ProfileView() {
             <div className="rounded-lg">
               {profile.reviews.map((review, index) => (
                 <div key={index} className="mb-2 bg-gray-300 rounded-lg">
-                  
-                  <p className="mb-1 text-black text-left pl-2">
-                    {review}
-                  </p>
+                  <p className="mb-1 text-black text-left pl-2">{review}</p>
                 </div>
               ))}
             </div>

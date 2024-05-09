@@ -54,12 +54,12 @@ const Bookpage = () => {
           console.log(profileDocSnap.docs[0].data());
           setRating(
             profileDocSnap.docs[0].data().rating.reduce((a, b) => a + b, 0) /
-              profileDocSnap.docs[0].data().rating.length || 0
+              profileDocSnap.docs[0].data().rating.length || 0,
           );
         } else {
           console.log(
             "No profile document found for offerer email:",
-            offererEmail
+            offererEmail,
           );
         }
       }

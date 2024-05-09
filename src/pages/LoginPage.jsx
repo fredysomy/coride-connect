@@ -21,7 +21,6 @@ function LoginPage() {
       await auth.signOut();
       nav("/login");
       alert("Please use your Saintgits email to login");
-      
     }
   };
   return (

@@ -1,12 +1,6 @@
-import{ useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { db } from "../firebase/firebase";
-import {
-  collection,
-
-  getDoc,
-  doc,
-  updateDoc,
-} from "firebase/firestore";
+import { collection, getDoc, doc, updateDoc } from "firebase/firestore";
 import { useParams, useNavigate } from "react-router-dom";
 
 const RiderRequest = () => {
@@ -113,18 +107,8 @@ const RiderRequest = () => {
     return <div>Loading...</div>;
   }
 
-  const {
-    name,
-    phoneno,
-    drop,
-    pick,
-    time,
-    img,
-    fare,
-    age,
-    home,
-    passenger,
-  } = request;
+  const { name, phoneno, drop, pick, time, img, fare, age, home, passenger } =
+    request;
   return (
     <div className="flex justify-center items-center h-screen m-5">
       <div className="bg-white shadow-lg rounded-lg bg-gray-100 w-full max-w-md p-8">

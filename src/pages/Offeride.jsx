@@ -7,13 +7,13 @@ import { collection, addDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 export default function Offerride() {
   const nav = useNavigate();
-  const [pick,setPick]=useState("")
-  const [drop,setDrop]=useState("")
+  const [pick, setPick] = useState("");
+  const [drop, setDrop] = useState("");
   const [input, setInput] = useState({
     active: false,
     time: "",
-    type:"",
-    mileage:0,
+    type: "",
+    mileage: 0,
     passenger: 1,
     interpoint: [],
   });
@@ -44,8 +44,8 @@ export default function Offerride() {
       const offerRef = collection(db, "offerride"); // Ensure the collection name is correct
       const docRef = await addDoc(offerRef, {
         ...input,
-        drop:drop,
-        pick:pick,
+        drop: drop,
+        pick: pick,
         passenger: parseInt(input.passenger),
         offerer_email: user.email, // Adding user's email to the input object
       });
@@ -86,7 +86,7 @@ export default function Offerride() {
                       componentRestrictions: { country: "in" },
                     }}
                     onPlaceSelected={(place) => {
-                     setPick(place.formatted_address)
+                      setPick(place.formatted_address);
                     }}
                   />
                 </div>
@@ -103,7 +103,7 @@ export default function Offerride() {
                       componentRestrictions: { country: "in" },
                     }}
                     onPlaceSelected={(place) => {
-                      setDrop(place.formatted_address)
+                      setDrop(place.formatted_address);
                     }}
                   />
                 </div>
@@ -172,25 +172,25 @@ export default function Offerride() {
                     name="type"
                     onChange={handleInputChange}
                   >
-                     <option value="choose" >Choose Vehicle</option>
+                    <option value="choose">Choose Vehicle</option>
                     <option value="Bike">Bike</option>
                     <option value="Car">Car</option>
                   </select>
                   <div>
-                  <label
-                    htmlFor="drop-location"
-                    className="block text-sm font-medium "
-                  >
-                   Mileage
-                  </label>
-                  <input
+                    <label
+                      htmlFor="drop-location"
+                      className="block text-sm font-medium "
+                    >
+                      Mileage
+                    </label>
+                    <input
                       type="number"
                       id="mileage"
                       name="mileage"
                       value={input.mileage}
                       onChange={handleInputChange}
                     />
-                </div>
+                  </div>
                   <label
                     htmlFor="passengers"
                     className="block text-sm font-medium text-gray-700"
@@ -208,7 +208,6 @@ export default function Offerride() {
                     <option value={2}>2</option>
                     <option value={3}>3</option>
                     <option value={4}>4</option>
-                   
                   </select>
                 </div>
               </div>

@@ -43,7 +43,9 @@ export default function Requests() {
 
         console.log("Filtered requests:", filteredRequests);
 
-        setRequests(filteredRequests.filter((request) => request.status == "pending"));
+        setRequests(
+          filteredRequests.filter((request) => request.status == "pending"),
+        );
         console.log(requests);
       } else {
         console.log("No matching documents found.");
@@ -55,12 +57,10 @@ export default function Requests() {
 
   return (
     <div className="max-w-lg mx-auto">
-  <h2 className="text-center font-sans text-2xl my-5">Requests</h2>
+      <h2 className="text-center font-sans text-2xl my-5">Requests</h2>
 
-  {requests &&
-    requests.map(
-      (request) =>
-        (
+      {requests &&
+        requests.map((request) => (
           <div
             key={request.id}
             className="bg-white rounded-lg shadow-md p-6 mb-6"
@@ -71,9 +71,7 @@ export default function Requests() {
             <div className="text-gray-600 mb-2">
               Booker Email: {request.booker_email}
             </div>
-            <div className="text-gray-600 mb-2">
-              Drop: {request.drop}
-            </div>
+            <div className="text-gray-600 mb-2">Drop: {request.drop}</div>
             <button
               className="bg-custom-green text-white font-semibold py-2 px-4 rounded focus:outline-none focus:ring focus:ring-blue-200"
               onClick={() => nav(`/request/${request.id}`)}
@@ -81,9 +79,7 @@ export default function Requests() {
               Review Request
             </button>
           </div>
-        )
-    )}
-</div>
-
+        ))}
+    </div>
   );
 }

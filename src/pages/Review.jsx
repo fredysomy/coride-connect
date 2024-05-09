@@ -1,4 +1,4 @@
-import{ useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../firebase/firebase";
 import RatingStars from "react-rating-stars-component";
