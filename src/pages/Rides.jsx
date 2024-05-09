@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { db, auth } from "../firebase/firebase.js";
 import {
   collection,
   query,
   where,
-  getDocs,
-  updateDoc,
-  doc,
+ getDocs
 } from "firebase/firestore";
-import { useNavigate,useParams } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 export default function Rides() {
-  const {id}=useParams()
   const nav = useNavigate();
   const [booking, setBooking] = useState([]);
   useEffect(() => {

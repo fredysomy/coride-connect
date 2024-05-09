@@ -9,8 +9,6 @@ export default function Offerride() {
   const nav = useNavigate();
   const [pick,setPick]=useState("")
   const [drop,setDrop]=useState("")
-  const [type,setType]=useState("")
-  const [loading,setLoading]=useState(false)
   const [input, setInput] = useState({
     active: false,
     time: "",
@@ -26,11 +24,7 @@ export default function Offerride() {
   const handleAddIntermediatePoint = () => {
     setInput({ ...input, interpoint: [...input.interpoint, ""] });
   };
-  const handleIntermediatePointChange = (index, value) => {
-    const updatedPoint = [...input.interpoint];
-    updatedPoint[index] = value;
-    setInput({ ...input, interpoint: updatedPoint });
-  };
+
   const handleRemove = (index) => {
     const updatedPoint = [...input.interpoint];
     updatedPoint.splice(index, 1);

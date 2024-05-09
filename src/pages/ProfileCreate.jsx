@@ -19,6 +19,7 @@ export default function ProfileCreate() {
     role: "",
     drive_exp: "",
     vehicle_regno: "",
+    upiid:"",
     mileage: 1,
   });
   const nav = useNavigate();
@@ -92,6 +93,17 @@ export default function ProfileCreate() {
             id="Age"
             name="age"
             placeholder="Enter your Age"
+            type="text"
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">Age</label>
+          <input
+            className="mt-1 block w-full rounded-lg border-none border-gray-300 shadow-sm focus:border-transparent focus:ring-0 sm:text-sm px-4 py-2"
+            id="upiid"
+            name="upiid"
+            placeholder="Enter UPI ID"
             type="text"
             onChange={handleChange}
           />

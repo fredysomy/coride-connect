@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { getDoc, doc, getDocs, query, collection } from "firebase/firestore";
+import  { useState, useEffect } from "react";
+import {  getDocs, collection } from "firebase/firestore";
 import { db } from "../firebase/firebase.js";
 import { useNavigate } from "react-router-dom";
 import Car from "../assets/Card/car.svg";
 import Bike from "../assets/Card/scooter.svg";
 import location from "../assets/Card/Locationicon.svg";
 import clock from "../assets/Card/Clock.svg";
-import { collapse } from "@material-tailwind/react";
 
 export default function HomePage() {
   const [data, setData] = useState({});
@@ -32,7 +31,7 @@ export default function HomePage() {
   console.log(data);
 
   if (!data || Object.keys(data).length === 0) {
-    return <div className="flex justify-center font-semibold">Loading...</div>;
+    return <div className="flex justify-center font-semibold">No Data to show now</div>;
   }
   
   return (

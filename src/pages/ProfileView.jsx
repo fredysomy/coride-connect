@@ -33,8 +33,8 @@ export default function ProfileView() {
           const profileData = querySnapshot.docs[0].data(); // Assuming there's only one profile per user
           setProfile(profileData);
           setRating(
-            profileData.rating.reduce((a, b) => a + b, 0) /
-              profileData.rating.length || 0,
+            profileData.ratings.reduce((a, b) => a + b, 0) /
+              profileData.ratings.length || 0,
           );
         } else {
           console.log("No profile found for the current user.");
@@ -114,11 +114,9 @@ export default function ProfileView() {
             <div className="rounded-lg">
               {profile.reviews.map((review, index) => (
                 <div key={index} className="mb-2 bg-gray-300 rounded-lg">
+                  
                   <p className="mb-1 text-black text-left pl-2">
-                    {review.name}
-                  </p>
-                  <p className="mb-1 text-black text-left pl-2">
-                    {review.comment}
+                    {review}
                   </p>
                 </div>
               ))}

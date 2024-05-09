@@ -1,8 +1,19 @@
-import React, { useState, useEffect } from "react";
+import{ useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import {db} from "../firebase/firebase";
+import { db } from "../firebase/firebase";
 import RatingStars from "react-rating-stars-component";
-import { collection,doc,getDoc,where,query,getDocs } from "firebase/firestore";
+
+import { QRCode } from "react-qrcode-logo";
+import {
+  collection,
+  doc,
+  getDoc,
+  where,
+  query,
+  getDocs,
+  updateDoc,
+  increment,
+} from "firebase/firestore";
 
 export default function Review() {
   const { id } = useParams(); // Get id from URL params
@@ -14,11 +25,11 @@ export default function Review() {
     // Fetch book ride data using id
     const fetchBookRideData = async () => {
       try {
-        const bookRideDoc = await doc(db,"bookride",id)
-        const bookRide=await getDoc(bookRideDoc)
+        const bookRideDoc = await doc(db, "bookride", id);
+        const bookRide = await getDoc(bookRideDoc);
         if (!bookRide.empty) {
           setBookRideData(bookRide.data());
-          console.log(bookRideData)
+          console.log(bookRideData);
           // After fetching book ride data, fetch offerer's profile
           fetchOffererProfile(bookRide.data().offerer_email);
         } else {
@@ -38,9 +49,9 @@ export default function Review() {
       const q = query(profileDocRef, where("email", "==", offererEmail));
       const profileDocSnap = await getDocs(q);
       if (!profileDocSnap.empty) {
-        profileDocSnap.forEach(doc => {
+        profileDocSnap.forEach((doc) => {
           setOffererProfile(doc.data());
-          console.log(offererProfile)
+          console.log(offererProfile);
         });
       } else {
         console.log("No offerer profile found!");
@@ -58,32 +69,60 @@ export default function Review() {
     setFormData({ ...formData, rating: newRating });
   };
 
-  const handleSubmit = async () => {
+  // Update profile document
+  const updateProfile = async () => {
+    const profileDocRef = collection(db, "profile");
+    const q = query(profileDocRef, where("email", "==", offererProfile.email));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(async (doc) => {
+      try {
+        const profileDoc = doc.data();
+        // Update the desired fields in the document
+        const updatedReviews = [...profileDoc.reviews, formData.text];
+        const updatedStars = [...profileDoc.ratings, formData.rating];
+        await updateDoc(doc.ref, {
+          reviews: updatedReviews,
+          ratings: updatedStars,
+        });
+
+        console.log("Profile document successfully updated!");
+      } catch (error) {
+        console.error("Error updating profile document: ", error);
+      }
+    });
+  };
+
+  // Update offerride document
+  const updateOfferride = async () => {
     try {
-      // Append review and stars to offerer's profile
-      const updatedReviews = [...offererProfile.reviews, formData.text];
-      const updatedStars = [...offererProfile.stars, formData.rating];
-
-      await firestore.collection("profiles").doc(offererProfile.id).update({
-        reviews: updatedReviews,
-        stars: updatedStars,
+      const offerrideDocRef = doc(db, "offerride", bookRideData.offer_id);
+      await updateDoc(offerrideDocRef, {
+        passenger: increment(1),
       });
-
-      console.log(
-        "Form submitted with feedback:",
-        formData.text,
-        "and rating:",
-        formData.rating
-      );
-      // Clear the feedback input field and reset rating
-      setFormData({ text: "", rating: 0 });
-      // Reload the page or any other necessary action after submission
-      window.location.reload();
+      console.log("Offerride document successfully updated!");
     } catch (error) {
-      console.error("Error submitting feedback:", error);
+      console.error("Error updating offerride document: ", error);
     }
   };
 
+  // Update booking document
+  const updateBooking = async () => {
+    try {
+      const bookingDocRef = doc(db, "bookride", id); // Assuming id is the booking ID
+      await updateDoc(bookingDocRef, {
+        status: "completed",
+      });
+      console.log("Booking document successfully updated!");
+    } catch (error) {
+      console.error("Error updating booking document: ", error);
+    }
+  };
+
+  const handleSubmit = async () => {
+    await updateProfile();
+    await updateOfferride();
+    await updateBooking();
+  };
   if (!bookRideData || !offererProfile) {
     return <div>Loading...</div>;
   }
@@ -119,6 +158,24 @@ export default function Review() {
         className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 mb-4 resize-none h-32 md:h-48 lg:h-64"
         placeholder="Enter your feedback..."
       ></textarea>
+      <a
+        href={`upi://pay?pa=${offererProfile.upiid}&pn=Intellemo&tn=cftrhwetaw4gta&am=${bookRideData.fare}`}
+      >
+        {" "}
+        <button className="bg-green-900 text-white px-6 py-4 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600 w-full md:w-auto">
+          Pay
+        </button>
+      </a>
+
+      <div className="w-1/2 mx-auto my-5">
+        <QRCode
+          value={`upi://pay?pa=${offererProfile.upiid}&pn=Intellemo&tn=cftrhwetaw4gta&am=${bookRideData.fare}`}
+          size="200"
+          logoWidth="80"
+          logoHeight="70"
+          logoOpacity="0.6"
+        />
+      </div>
       <div className="flex justify-center">
         <button
           type="button"

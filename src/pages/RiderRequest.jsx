@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import{ useState, useEffect } from "react";
 import { db } from "../firebase/firebase";
 import {
   collection,
-  query,
-  where,
+
   getDoc,
   doc,
   updateDoc,
@@ -120,7 +119,6 @@ const RiderRequest = () => {
     drop,
     pick,
     time,
-    date,
     img,
     fare,
     age,

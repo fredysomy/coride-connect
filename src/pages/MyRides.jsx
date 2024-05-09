@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { db, auth } from "../firebase/firebase.js";
 import {
   collection,
@@ -11,7 +11,6 @@ import {
 
 const MyRides = () => {
   const [rides, setRides] = useState([]);
-  const [activeToggle, setActiveToggle] = useState(false);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {

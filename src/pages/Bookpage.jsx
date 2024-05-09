@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import img from "../assets/profile pic.svg";
 import axios from "axios";
 
@@ -82,7 +82,7 @@ const Bookpage = () => {
   const calculateFare = async (abc) => {
     const options = {
       method: "POST",
-      url: "http://localhost:3000/get_fare",
+      url: "https://svps-backend-99c87df9aa95.herokuapp.com/get_fare",
       headers: { "content-type": "application/json" },
 
       data: {
@@ -134,7 +134,7 @@ const Bookpage = () => {
       };
 
       try {
-        const response = await fetch(url, options);
+        await fetch(url, options);
         alert("Ride request is sent");
         nav("/rides");
       } catch (error) {

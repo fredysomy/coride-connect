@@ -1,4 +1,4 @@
-import { signInWithGooglePopup, db } from "../firebase/firebase.js";
+import { signInWithGooglePopup, db, auth } from "../firebase/firebase.js";
 
 import { collection, query, where, getDocs } from "firebase/firestore";
 import img from "../assets/loginimage.svg";
@@ -11,10 +11,17 @@ function LoginPage() {
     const profileRef = collection(db, "profile");
     const q = query(profileRef, where("email", "==", response.user.email));
     const querySnapshot = await getDocs(q);
-    if (!querySnapshot.empty) {
-      nav("/home");
+    if (response.user.email.match(/@saintgits.org$/)) {
+      if (!querySnapshot.empty) {
+        nav("/home");
+      } else {
+        nav("/profile/create");
+      }
     } else {
-      nav("/profile/create");
+      await auth.signOut();
+      nav("/login");
+      alert("Please use your Saintgits email to login");
+      
     }
   };
   return (

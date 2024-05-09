@@ -13,7 +13,7 @@ import {
   updateDoc,
   setDoc,
 } from "firebase/firestore";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import ProfileCreatePage from "./pages/ProfileCreate";
@@ -27,13 +27,11 @@ import Offerride from "./pages/Offeride.jsx";
 import Review from "./pages/Review.jsx";
 import Requests from "./pages/Requests.jsx";
 import MyRides from "./pages/MyRides.jsx";
-import Message from "./components/Message";
 import "react-toastify/dist/ReactToastify.css";
 import { Toaster, toast } from "sonner";
 import Rides from "./pages/Rides.jsx";
 
-// ...
-import ProtectedRoute from "./components/auth_HOC.jsx";
+
 
 function App() {
   async function requestPermission(email) {
