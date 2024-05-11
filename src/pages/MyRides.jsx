@@ -52,7 +52,7 @@ const MyRides = () => {
   };
 
   return (
-    <div>
+    <div className="font-poppins">
       <h2 className="text-center font-sans text-2xl my-5">My Rides</h2>
       {rides &&
         rides.map((ride) => (

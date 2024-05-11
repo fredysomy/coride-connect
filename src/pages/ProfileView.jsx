@@ -51,10 +51,12 @@ export default function ProfileView() {
   }, [userEmail]);
 
   if (!profile) {
-    return <div>Loading...</div>;
+    return <div className="flex justify-center items-center h-screen">
+    <div className="animate-spin rounded-full h-32 w-32 border-b-4 border-gray-900"></div>
+  </div>;
   }
   return (
-    <div className="min-h-screen min-w-screen ">
+    <div className="min-h-screen min-w-screen font-poppins">
       <div className="max-w-5xl mx-auto bg-white rounded-lg overflow-hidden">
         <div>
           <div className="bg-gray-300 ">
@@ -72,7 +74,7 @@ export default function ProfileView() {
               <div className="rounded-lg">
                 <div className="flex justify-center gap-20 pb-5 ">
                   <div className="flex flex-col ">
-                    <p className="flex justify-center text-black">{rating}</p>
+                    <span className="flex justify-center text-black">{rating.toFixed(0)}⭐</span>
                     <p className="text-black">Rating</p>
                   </div>
                   <div className="flex flex-col">

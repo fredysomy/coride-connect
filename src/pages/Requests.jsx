@@ -54,9 +54,13 @@ export default function Requests() {
       console.error("Error fetching data:", error);
     }
   };
-
+  if (requests.length===0) {
+    return <div className="flex justify-center items-center h-screen">
+  <p>No Available Request</p>
+  </div>;
+  }
   return (
-    <div className="max-w-lg mx-auto">
+    <div className="max-w-lg mx-auto font-poppins">
       <h2 className="text-center font-sans text-2xl my-5">Requests</h2>
 
       {requests &&

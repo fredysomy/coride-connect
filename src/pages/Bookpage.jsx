@@ -53,8 +53,8 @@ const Bookpage = () => {
           setOffererData(profileDocSnap.docs[0].data());
           console.log(profileDocSnap.docs[0].data());
           setRating(
-            profileDocSnap.docs[0].data().rating.reduce((a, b) => a + b, 0) /
-              profileDocSnap.docs[0].data().rating.length || 0,
+            profileDocSnap.docs[0].data().ratings.reduce((a, b) => a + b, 0) /
+              profileDocSnap.docs[0].data().ratings.length || 0,
           );
         } else {
           console.log(
@@ -144,24 +144,25 @@ const Bookpage = () => {
       console.error("Error adding data to Firestore: ", error);
     }
   };
-
+  
+  
   return (
-    <div className="flex  items-center h-screen ">
+    <div className="flex my-auto font-poppins justify-center w-full ">
       {offerData && offererData && (
-        <div className="bg-white shadow-lg rounded-lg bg-gray-100 w-full max-w-md p-8">
+        <div className=" shadow-lg rounded-lg bg-gray-100 w-full max-w-md p-8">
           <div className="flex items-center mb-6 flex-col bg-gray-200 rounded-lg p-4">
             <img
-              src={offerData.img || img}
+              src={offererData.img }
               alt="Profile"
               className="w-16 h-16 rounded-full"
             />
             <div className="items-center">
-              <p className="text-xl font-semibold text-center">
+              <p className="text-xl font-semibold font-poppins text-center ">
                 {offererData.name}
               </p>
-              <div className="flex justify-between w-40">
+              <div className="flex justify-between font-poppins w-40">
                 <div className="text-center">
-                  <span className="block text-lg font-bold">{rating} ⭐</span>
+                  <span className="block text-lg font-bold">{rating.toFixed(0)} ⭐</span>
                   <span className="text-sm">Rating</span>
                 </div>
                 <div className="text-center">

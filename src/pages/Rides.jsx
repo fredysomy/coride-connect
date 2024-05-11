@@ -28,8 +28,15 @@ export default function Rides() {
 
     return unsubscribe;
   }, []);
+  if (booking.length === 0) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p>No Available Booking </p>
+      </div>
+    );
+  }
   return (
-    <div className="flex flex-col w-full p-4 space-y-4">
+    <div className="flex flex-col w-full p-4 space-y-4 font-poppins">
       {booking &&
         booking.map((ride) => (
           <div
@@ -66,7 +73,7 @@ export default function Rides() {
                 </button>
               )}
             </p>
-            {/* Render other ride details */}
+            
           </div>
         ))}
     </div>

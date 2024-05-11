@@ -72,7 +72,7 @@ export default function ProfileCreate() {
   console.log(input);
 
   return (
-    <div className="bg-white-100 text-black pt-8 lg:pl-8 lg:mx-auto max-w-md m-10">
+    <div className="bg-white-100 font-poppins text-black pt-8 lg:pl-8 lg:mx-auto max-w-md m-10">
       <h2 className="text-2xl font-bold mb-4">Create an Account</h2>
       <form className="space-y-4">
         <div>

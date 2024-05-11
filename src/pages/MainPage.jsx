@@ -2,7 +2,7 @@ import img from "../assets/loginimage.svg";
 
 function MainPage() {
   return (
-    <div>
+    <div className="font-poppins">
       <div className="min-h-screen flex items-center justify-center flex-col">
         <img src={img} className="mb-4" />
         <h1 className="text-4xl font-bold mb-4 text-gray-900">

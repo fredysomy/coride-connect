@@ -118,17 +118,20 @@ export default function Review() {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
     await updateProfile();
     await updateOfferride();
     await updateBooking();
+e.target.innerText="Submited"
   };
   if (!bookRideData || !offererProfile) {
-    return <div>Loading...</div>;
+    return <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-4 border-gray-900"></div>
+      </div>;
   }
 
   return (
-    <div className="max-w-screen-lg mx-auto shadow-md rounded-md m-5 p-5 ">
+    <div className="max-w-screen-lg mx-auto shadow-md font-poppins rounded-md m-5 p-5 ">
       <div className="text-center mb-4">
         <div className="bg-gray-300 flex flex-col items-center">
           <img
@@ -158,14 +161,14 @@ export default function Review() {
         className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 mb-4 resize-none h-32 md:h-48 lg:h-64"
         placeholder="Enter your feedback..."
       ></textarea>
-      <a
-        href={`upi://pay?pa=${offererProfile.upiid}&pn=Intellemo&tn=cftrhwetaw4gta&am=${bookRideData.fare}`}
-      >
-        {" "}
-        <button className="bg-green-900 text-white px-6 py-4 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600 w-full md:w-auto">
-          Pay
+      <button
+          type="button"
+          onClick={handleSubmit}
+          className="bg-green-900 text-white px-6 py-4 rounded-md hover:bg-green-900 focus:outline-none focus:bg-green-600 w-full md:w-auto"
+        >
+          Submit Review
         </button>
-      </a>
+      
 
       <div className="w-1/2 mx-auto my-5">
         <QRCode
@@ -177,13 +180,14 @@ export default function Review() {
         />
       </div>
       <div className="flex justify-center">
-        <button
-          type="button"
-          onClick={handleSubmit}
-          className="bg-green-900 text-white px-6 py-4 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600 w-full md:w-auto"
-        >
-          Submit
+      <a
+        href={`upi://pay?pa=${offererProfile.upiid}&pn=Intellemo&tn=cftrhwetaw4gta&am=${bookRideData.fare}`}
+      >
+        {" "}
+        <button className="flex justify-center bg-green-900 text-white px-6 py-4 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600 w-full md:w-auto">
+          Pay
         </button>
+      </a>
       </div>
     </div>
   );
