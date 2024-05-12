@@ -198,7 +198,7 @@ export function StickyNavbar() {
                 variant="text"
                 className="bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600"
                 size="md"
-                onClick={()=>{handleLogout && setOpenNav(false)}}
+                onClick={()=>{handleLogout() && setOpenNav(false)}}
               >
                 Log Out
               </Button>
