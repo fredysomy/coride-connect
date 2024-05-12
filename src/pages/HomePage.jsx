@@ -7,6 +7,7 @@ import Car from "../assets/Card/car.svg";
 import Bike from "../assets/Card/scooter.svg";
 import location from "../assets/Card/Locationicon.svg";
 import clock from "../assets/Card/Clock.svg";
+import MyComponent from "../components/Suggestion.jsx";
 
 export default function HomePage() {
   const [data, setData] = useState(null);
@@ -22,7 +23,7 @@ export default function HomePage() {
         await fetchProfile();
         await fetchRidesData();
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
@@ -37,11 +38,11 @@ export default function HomePage() {
         if (currentUser) {
           setUserEmail(currentUser.email);
         } else {
-          nav('/login');
+          nav("/login");
         }
       });
     } catch (error) {
-      console.error('Error checking current user:', error);
+      console.error("Error checking current user:", error);
     }
   };
 
@@ -112,128 +113,53 @@ export default function HomePage() {
     );
   }
 
-  
-
   return (
-    
-    <> 
-     <div className="flex justify-end items-center p-4">
+    <>
+      <div className="flex justify-end items-center p-4">
+        <form className=" flex items-center" onSubmit={handleSearch}>
+          <Autocomplete
+            placeholder="Search"
+            className="border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-custom-green focus:border-transparent"
+            apiKey={"AIzaSyDjLpn8fDYOJJ9Yj7PVsJzslIiVfk2iiHg"}
+            options={{
+              componentRestrictions: { country: "in" },
+            }}
+            onPlaceSelected={(place) => {
+              setSearch(place.formatted_address);
+            }}
+          />
 
-      <form className=" flex items-center"
-      onSubmit={handleSearch}
-      >
-         <Autocomplete
-    placeholder="Search"
-    className="border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-custom-green focus:border-transparent"
-    apiKey={"AIzaSyDjLpn8fDYOJJ9Yj7PVsJzslIiVfk2iiHg"}
-    options={{
-        componentRestrictions: { country: "in" },
-    }}
-    onPlaceSelected={(place) => {
-        setSearch(place.formatted_address);
-    }}
-/>
-
-
-      
-      <button type="submit" className="px-4 py-2 bg-custom-green text-white rounded-lg hover:bg-custom-green">
-        Search
-      </button>
-    </form></div>
-    
-    <div className="flex flex-col items-center space-y-4 p-2 ">
-     
-      <h1 className="font-extrabold text-xl" >Your Suggestions</h1>
-      {data && data
-  .filter((ride) => ride.drop === profile.dest || ride.interpoint.some((point)=> point === profile.dest) )
-  .map((ride, index) => (
-    <div
-      className="w-full rounded-lg shadow-sm bg-gray-300 mx-3 transition-transform duration-300 hover:scale-105 lg:hover:scale-95"
-      key={index}
-    >
-      <div className="flex py-2 pl-2 pr-3">
-        <div className="flex flex-col justify-center mr-10">
-          {ride.type === "Car" ? (
-            <img src={Car} alt="Car" className="h-15 w-15 " />
-          ) : ride.type === "Bike" ? (
-            <img src={Bike} alt="Bike" className="h-15 w-15" />
-          ) : null}
-          <span className="flex justify-center">{ride.distance}</span>
-        </div>
-        <div className="flex flex-col space-y-2 mr-auto">
-          <div className="flex space-x-1">
-            <img src={location} alt="loc icon" className="h-5 w-5" />
-            <span className="font-normal font-poppins max-w-md">{ride.pick}</span>
-          </div>
-          <div className="flex space-x-1">
-            <img src={location} alt="loc icon" className="h-5 w-5" />
-            <span className="font-normal font-poppins max-w-sm">{ride.drop}</span>
-          </div>
-          <div className="flex">
-            <img src={clock} alt="clock icon" className="h-5 w-5" />
-            <span className="font-poppins pl-2">{ride.time}</span>
-          </div>
-        </div>
-        <div className="flex flex-col justify-end">
           <button
-            className="bg-custom-green text-white h-7 w-12 font-poppins rounded-2xl"
-            onClick={() => nav(`/book_ride/${ride.docId}`)}
+            type="submit"
+            className="px-4 py-2 bg-custom-green text-white rounded-lg hover:bg-custom-green"
           >
-            Ride
+            Search
           </button>
-        </div>
+        </form>
       </div>
-    </div>
-  ))}
 
-    </div>
+      <div className="flex flex-col items-center space-y-4 p-2 ">
+        <h1 className="font-extrabold text-xl">Your Suggestions</h1>
+        {data &&
+          data
+            .filter(
+              (ride) =>
+                ride.drop === profile.dest ||
+                ride.interpoint.some((point) => point === profile.dest)
+            )
+            .map((ride, index) => (
+              <MyComponent data={ride} key={index} />
+            ))}
+      </div>
 
-
-
-    <div className="flex flex-col items-center space-y-4 p-2 ">
+      <div className="flex flex-col items-center space-y-4 p-2 ">
         <h1 className="font-extrabold text-xl">All Suggestion</h1>
 
-    {data &&
-      data.map((ride, index) => (
-        <div
-        className="w-full rounded-lg shadow-sm bg-gray-300 mx-3 transition-transform duration-300 hover:scale-105 lg:hover:scale-95" key={index}
-        >
-          <div className="flex py-2 pl-2 pr-3">
-            <div className="flex flex-col justify-center mr-10">
-              {ride.type == "Car" ? (
-                <img src={Car} alt="Car" className="h-15 w-15 " />
-              ) : ride.type == "Bike" ? (
-                <img src={Bike} alt="Bike" className="h-15 w-15" />
-              ) : null}
-              <span className="flex justify-center">{ride.distance}</span>
-            </div>
-            <div className="flex flex-col space-y-2 mr-auto">
-              <div className="flex space-x-1">
-                <img src={location} alt="loc icon" className="h-5 w-5" />
-                <span className="font-normal font-poppins max-w-md">{ride.pick}</span>
-              </div>
-              <div className="flex space-x-1">
-                <img src={location} alt="loc icon" className="h-5 w-5" />
-                <span className="font-normal font-poppins max-w-sm">{ride.drop}</span>
-              </div>
-              <div className="flex">
-                <img src={clock} alt="clock icon" className="h-5 w-5" />
-                <span className="font-poppins pl-2">{ride.time}</span>
-              </div>
-            </div>
-            <div className="flex flex-col justify-end ">
-              <button
-                className="bg-custom-green text-white h-7 w-12 font-poppins rounded-2xl "
-                onClick={() => nav(`/book_ride/${ride.docId}`)}
-              >
-                Ride
-              </button>
-            </div>
-          </div>
-        </div>
-      ))}
-  </div></>
-    
-   
+        {data &&
+          data.map((ride, index) => (
+            <MyComponent data={ride} key={index} />
+          ))}
+      </div>
+    </>
   );
 }

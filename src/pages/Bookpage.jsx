@@ -23,7 +23,7 @@ const Bookpage = () => {
   const [offererData, setOffererData] = useState(null);
   const [location, setLocation] = useState("");
   const [rating, setRating] = useState(0);
-  const [fare, setFare] = useState(0);
+  const [fare, setFare] = useState(null);
 
   // Function to fetch offer data from Firestore
   const fetchOfferData = async () => {
@@ -220,9 +220,12 @@ const Bookpage = () => {
             Estimated Fare: <span>{fare}</span>
           </div>
           <button
+          disabled={fare === null}
             className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 rounded w-full ${
               loading ? "cursor-not-allowed opacity-50" : ""
-            }`}
+            }
+            ${ fare === null ? "cursor-not-allowed opacity-50 disabled" : ""}
+            `}
             onClick={loading ? null : BookRide} // Disable onClick when loading
           >
             {loading ? "Booking..." : "Book Ride"}

@@ -56,7 +56,7 @@ export default function ProfileView() {
   </div>;
   }
   return (
-    <div className="min-h-screen min-w-screen font-poppins">
+    <div className="min-h-screen min-w-screen font-poppins m-5">
       <div className="max-w-5xl mx-auto bg-white rounded-lg overflow-hidden">
         <div>
           <div className="bg-gray-300 ">
