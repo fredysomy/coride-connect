@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase/firebase.js";
 import { collection, addDoc } from "firebase/firestore";
+import Autocomplete from "react-google-autocomplete";
 export default function ProfileCreate() {
   const [input, setInput] = useState({
     name: "",
@@ -26,11 +27,7 @@ export default function ProfileCreate() {
   const handleAddIntermediatePoint = () => {
     setInput({ ...input, interpoint: [...input.interpoint, ""] });
   };
-  const handleIntermediatePointChange = (index, value) => {
-    const updatedPoint = [...input.interpoint];
-    updatedPoint[index] = value;
-    setInput({ ...input, interpoint: updatedPoint });
-  };
+  
   const handleRemove = (index) => {
     const updatedPoint = [...input.interpoint];
     updatedPoint.splice(index, 1);
@@ -98,7 +95,7 @@ export default function ProfileCreate() {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Age</label>
+          <label className="block text-sm font-medium">Upi Id</label>
           <input
             className="mt-1 block w-full rounded-lg border-none border-gray-300 shadow-sm focus:border-transparent focus:ring-0 sm:text-sm px-4 py-2"
             id="upiid"
@@ -126,27 +123,35 @@ export default function ProfileCreate() {
           <label className="block text-sm font-medium" htmlFor="email">
             Home
           </label>
-          <input
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm px-4 py-2"
-            id="home"
-            name="home"
-            placeholder="Enter your institution"
-            type="text"
-            onChange={handleChange}
-          />
+          <Autocomplete
+    placeholder="Enter Home"
+    className="border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-custom-green focus:border-transparent"
+    apiKey={"AIzaSyDjLpn8fDYOJJ9Yj7PVsJzslIiVfk2iiHg"}
+    options={{
+        componentRestrictions: { country: "in" },
+    }}
+    onPlaceSelected={(place) => {
+      setInput({ ...input, home: place.formatted_address });
+    }}
+/>
+        
         </div>
         <div>
           <label className="block text-sm font-medium" htmlFor="email">
             Destination
           </label>
-          <input
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm px-4 py-2"
-            id="dest"
-            name="dest"
-            placeholder="Enter your Destination"
-            type="text"
-            onChange={handleChange}
-          />
+          <Autocomplete
+    placeholder="Enter Destination"
+    className="border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-custom-green focus:border-transparent"
+    apiKey={"AIzaSyDjLpn8fDYOJJ9Yj7PVsJzslIiVfk2iiHg"}
+    options={{
+        componentRestrictions: { country: "in" },
+    }}
+    onPlaceSelected={(place) => {
+      setInput({ ...input,dest: place.formatted_address });
+    }}
+/>
+          
         </div>
         <div>
           <label className="block text-sm font-medium" htmlFor="phone">
@@ -160,6 +165,7 @@ export default function ProfileCreate() {
             type="tel"
             onChange={handleChange}
           />
+          
         </div>
         <div className="flex items-center gap-2">
           <button
@@ -172,15 +178,17 @@ export default function ProfileCreate() {
         </div>
         {input.interpoint.map((point, index) => (
           <div className="flex items-center" key={index}>
-            <input
-              type="text"
-              placeholder="Enter intermediate point"
-              className="mt-1 h-8 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-              value={point}
-              onChange={(e) =>
-                handleIntermediatePointChange(index, e.target.value)
-              }
-            />
+              <Autocomplete
+                    apiKey={"AIzaSyDjLpn8fDYOJJ9Yj7PVsJzslIiVfk2iiHg"}
+                    options={{
+                      componentRestrictions: { country: "in" },
+                    }}
+                    onPlaceSelected={(place) => {
+                      const updatedPoint = [...input.interpoint];
+                      updatedPoint[index] = place.formatted_address;
+                      setInput({ ...input, interpoint: updatedPoint });
+                    }}
+                  />
             <button
               type="button"
               className="ml-2 inline-flex items-center py-1.5 px-3 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-900"

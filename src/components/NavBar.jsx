@@ -110,6 +110,10 @@ export function StickyNavbar() {
             Bookings
           </Link>
         </Typography>
+        
+        
+      
+        
       </>
     )}
   </ul>

@@ -89,7 +89,7 @@ export default function ProfileView() {
           </div>
 
           <p className="mt-2 text-black text-left pl-2">
-            Phone: {profile.phoneno}
+          📞: {profile.phoneno}
           </p>
           <hr className="my-4 bg-black" />
 
@@ -116,6 +116,8 @@ export default function ProfileView() {
             <div className="rounded-lg">
               {profile.reviews.map((review, index) => (
                 <div key={index} className="mb-2 bg-gray-300 rounded-lg">
+                  <h3 className="text-md font-semibold  text-black ">User</h3>
+                  
                   <p className="mb-1 text-black text-left pl-2">{review}</p>
                 </div>
               ))}

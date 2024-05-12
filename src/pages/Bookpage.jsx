@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import img from "../assets/profile pic.svg";
+
 import axios from "axios";
 
 import { auth, db } from "../firebase/firebase.js";
