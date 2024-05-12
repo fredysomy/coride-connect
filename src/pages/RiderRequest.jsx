@@ -110,8 +110,8 @@ const RiderRequest = () => {
   const { name, phoneno, drop, pick, time, img, fare, age, home, passenger } =
     request;
   return (
-    <div className="flex justify-center items-center h-screen m-5">
-      <div className="bg-white shadow-lg rounded-lg bg-gray-100 w-full max-w-md p-8">
+    <div className="flex justify-center items-center h-screen m-5 font-poppins">
+      <div className="shadow-lg rounded-lg bg-gray-100 w-full max-w-md p-8">
         <div className="bg-gray-200 rounded-lg p-4 mb-6 flex flex-col items-center">
           <img
             src={img}

@@ -58,7 +58,7 @@ export default function Offerride() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl ">
+    <div className="mx-auto max-w-7xl font-poppins ">
       <div className="space-y-6">
         <div className="space-y-2">
           <div className="pt-5 text-green-900 flex flex-col items-center justify-center">
@@ -144,7 +144,7 @@ export default function Offerride() {
                   <div>
                     <label
                       htmlFor="time"
-                      className="block text-sm font-medium text-gray-700"
+                      className="block text-sm font-medium"
                     >
                       Time
                     </label>
@@ -160,7 +160,7 @@ export default function Offerride() {
                 <div>
                   <label
                     htmlFor="type"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium"
                   >
                     Vehicle
                   </label>
@@ -179,7 +179,7 @@ export default function Offerride() {
                   <div>
                     <label
                       htmlFor="drop-location"
-                      className="block text-sm font-medium "
+                      className="block text-sm font-medium pt-2 "
                     >
                       Mileage
                     </label>
@@ -193,13 +193,13 @@ export default function Offerride() {
                   </div>
                   <label
                     htmlFor="passengers"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-gray-700 pt-3"
                   >
                     Number of Passengers
                   </label>
                   <select
                     id="passengers"
-                    className="mt-1 block w-25 pl-3 pr-10 py-2 text-base border-gray-500 focus:outline-none sm:text-sm rounded-md"
+                    className="mt-1 block w-25 pt-2 pl-3 pr-10 py-2 text-base border-gray-500 focus:outline-none sm:text-sm rounded-md"
                     type="number"
                     name="passenger"
                     onChange={handleInputChange}
@@ -216,7 +216,7 @@ export default function Offerride() {
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="w-full l:w-auto inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium  text-white bg-green-900 hover:bg-green-900 focus:outline-none focus:ring-none"
+                className="w-full l:w-auto inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium  text-white bg-green-900  focus:outline-none focus:ring-none"
               >
                 Offer Ride
               </button>

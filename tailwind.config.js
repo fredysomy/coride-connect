@@ -7,6 +7,10 @@ export default withMT({
       colors: {
         "custom-green": "#346751",
       },
+      fontFamily: {
+        poppins: ["Poppins"],
+        // Add more custom font families as needed
+      },
     },
   },
   plugins: [],

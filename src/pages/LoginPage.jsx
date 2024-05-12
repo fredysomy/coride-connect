@@ -3,6 +3,7 @@ import { signInWithGooglePopup, db, auth } from "../firebase/firebase.js";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import img from "../assets/loginimage.svg";
 import { useNavigate } from "react-router-dom";
+import { FcGoogle } from "react-icons/fc";
 
 function LoginPage() {
   const nav = useNavigate();
@@ -24,7 +25,7 @@ function LoginPage() {
     }
   };
   return (
-    <div>
+    <div className="font-poppins">
       <div className="min-h-screen flex items-center justify-center flex-col text-center">
         <img src={img} className="mb-4" />
         <h1 className="text-4xl font-bold mb-4 text-gray-900">
@@ -36,9 +37,9 @@ function LoginPage() {
         </p>
         <button
           onClick={logGoogleUser}
-          className="text-white font-bold bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded mt-8"
+          className="flex  gap-2 text-white font-bold bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded mt-8"
         >
-          Sign In With Google
+        <FcGoogle/> Sign In With Google
         </button>
       </div>
     </div>
