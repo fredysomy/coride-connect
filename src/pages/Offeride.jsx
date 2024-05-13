@@ -105,6 +105,7 @@ return (
                   </label>
                   <Autocomplete
                     apiKey={"AIzaSyDjLpn8fDYOJJ9Yj7PVsJzslIiVfk2iiHg"}
+                    className="border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-custom-green focus:border-transparent"
                     options={{
                       componentRestrictions: { country: "in" },
                     }}
@@ -122,6 +123,7 @@ return (
                   </label>
                   <Autocomplete
                     apiKey={"AIzaSyDjLpn8fDYOJJ9Yj7PVsJzslIiVfk2iiHg"}
+                    className="border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-custom-green focus:border-transparent"
                     options={{
                       componentRestrictions: { country: "in" },
                     }}
@@ -144,6 +146,7 @@ return (
                 <div className="flex items-center" key={index}>
                   <Autocomplete
                     apiKey={"AIzaSyDjLpn8fDYOJJ9Yj7PVsJzslIiVfk2iiHg"}
+                    className="border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-custom-green focus:border-transparent"
                     options={{
                       componentRestrictions: { country: "in" },
                     }}
