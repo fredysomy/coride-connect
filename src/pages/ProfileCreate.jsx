@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase/firebase.js";
 import { collection, addDoc } from "firebase/firestore";
 import Autocomplete from "react-google-autocomplete";
+import { toast, Toaster } from "sonner";
 export default function ProfileCreate() {
   const [input, setInput] = useState({
     name: "",
@@ -11,8 +12,7 @@ export default function ProfileCreate() {
     phoneno: "",
     img: "",
     institution: "",
-    home: "",
-    dest: "",
+   
     interpoint: [],
     license: "",
     ratings: [],
@@ -24,15 +24,38 @@ export default function ProfileCreate() {
     mileage: 1,
   });
   const nav = useNavigate();
-  const handleAddIntermediatePoint = () => {
-    setInput({ ...input, interpoint: [...input.interpoint, ""] });
+  const [dest, setDest] = useState("");
+  const [home, setHome] = useState("");
+
+  const isStateEmpty = () => {
+    if (input.role === "Driver" || input.role === "Both") {
+      return (
+        !input.name ||
+        !input.age ||
+        !input.phoneno ||
+        !input.institution ||
+        !home ||
+        !dest ||
+        !input.license ||
+        !input.role ||
+        !input.drive_exp ||
+        !input.vehicle_regno ||
+        !input.upiid
+      );
+    } else {
+      return (
+        !input.name ||
+        !input.age ||
+        !input.phoneno ||
+        !input.institution ||
+        !home ||
+        !dest ||
+        !input.role ||
+        !input.upiid
+      );
+    }
   };
-  
-  const handleRemove = (index) => {
-    const updatedPoint = [...input.interpoint];
-    updatedPoint.splice(index, 1);
-    setInput({ ...input, interpoint: updatedPoint });
-  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Check if user is logged in
@@ -46,15 +69,20 @@ export default function ProfileCreate() {
     }
 
     try {
-      const profileRef = collection(db, "profile"); // Ensure the collection name is correct
-      const docRef = await addDoc(profileRef, {
-        ...input,
-        mileage: parseInt(input.mileage),
-        img: user.photoURL,
-        email: user.email, // Adding user's email to the input object
-      });
-      console.log("User profile added successfully with ID: ", docRef.id);
-      nav("/home");
+      if (!isStateEmpty()) {
+        const profileRef = collection(db, "profile"); // Ensure the collection name is correct
+        const docRef = await addDoc(profileRef, {
+          ...input,
+          mileage: parseInt(input.mileage),
+          dest:dest,home:home,
+          img: user.photoURL,
+          email: user.email, // Adding user's email to the input object
+        });
+        console.log("User profile added successfully with ID: ", docRef.id);
+        nav("/home");
+      } else {
+        toast.error("Please fill all the fields");
+      }
     } catch (error) {
       console.error("Error adding user profile:", error);
     }
@@ -71,6 +99,7 @@ export default function ProfileCreate() {
   return (
     <div className="bg-white-100 font-poppins text-black pt-8 lg:pl-8 lg:mx-auto max-w-md m-10">
       <h2 className="text-2xl font-bold mb-4">Create an Account</h2>
+      
       <form className="space-y-4">
         <div>
           <label className="block text-sm font-medium">Name</label>
@@ -79,6 +108,7 @@ export default function ProfileCreate() {
             id="name"
             name="name"
             placeholder="Enter your name"
+            value={input.name}
             type="text"
             onChange={handleChange}
           />
@@ -89,6 +119,7 @@ export default function ProfileCreate() {
             className="mt-1 block w-full rounded-lg border-none border-gray-300 shadow-sm focus:border-transparent focus:ring-0 sm:text-sm px-4 py-2"
             id="Age"
             name="age"
+            value={input.age}
             placeholder="Enter your Age"
             type="text"
             onChange={handleChange}
@@ -99,6 +130,9 @@ export default function ProfileCreate() {
           <input
             className="mt-1 block w-full rounded-lg border-none border-gray-300 shadow-sm focus:border-transparent focus:ring-0 sm:text-sm px-4 py-2"
             id="upiid"
+            value={
+              input.upiid
+            }
             name="upiid"
             placeholder="Enter UPI ID"
             type="text"
@@ -113,6 +147,7 @@ export default function ProfileCreate() {
           <input
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm px-4 py-2"
             id="institution"
+            value={input.institution}
             name="institution"
             placeholder="Enter your institution"
             type="text"
@@ -124,34 +159,38 @@ export default function ProfileCreate() {
             Home
           </label>
           <Autocomplete
-    placeholder="Enter Home"
-    className="border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-custom-green focus:border-transparent"
-    apiKey={"AIzaSyDjLpn8fDYOJJ9Yj7PVsJzslIiVfk2iiHg"}
-    options={{
-        componentRestrictions: { country: "in" },
-    }}
-    onPlaceSelected={(place) => {
-      setInput({ ...input, home: place.formatted_address });
-    }}
-/>
-        
+            placeholder="Enter Home"
+            
+            className="border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-custom-green focus:border-transparent"
+            apiKey={"AIzaSyDjLpn8fDYOJJ9Yj7PVsJzslIiVfk2iiHg"}
+            options={{
+              componentRestrictions: { country: "in" },
+            }}
+            onPlaceSelected={(place) => {
+             setHome(place.formatted_address);
+            }}
+            
+            
+          />
         </div>
         <div>
           <label className="block text-sm font-medium" htmlFor="email">
             Destination
           </label>
           <Autocomplete
-    placeholder="Enter Destination"
-    className="border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-custom-green focus:border-transparent"
-    apiKey={"AIzaSyDjLpn8fDYOJJ9Yj7PVsJzslIiVfk2iiHg"}
-    options={{
-        componentRestrictions: { country: "in" },
-    }}
-    onPlaceSelected={(place) => {
-      setInput({ ...input,dest: place.formatted_address });
-    }}
-/>
+            placeholder="Enter Destination"
           
+            className="border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-custom-green focus:border-transparent"
+            apiKey={"AIzaSyDjLpn8fDYOJJ9Yj7PVsJzslIiVfk2iiHg"}
+            options={{
+              componentRestrictions: { country: "in" },
+            }}
+            onPlaceSelected={(place) => {
+              setDest(place.formatted_address);
+            }}
+            
+            
+          />
         </div>
         <div>
           <label className="block text-sm font-medium" htmlFor="phone">
@@ -161,43 +200,13 @@ export default function ProfileCreate() {
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm px-4 py-2"
             id="phone"
             name="phoneno"
+            value={input.phoneno}
             placeholder="Enter your phone number"
             type="tel"
             onChange={handleChange}
           />
-          
         </div>
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            className="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded-md  bg-white hover:bg-grey-50 focus:outline-none focus:ring-2 focus:ring-green-900"
-            onClick={handleAddIntermediatePoint}
-          >
-            Add Intermediate Points
-          </button>
-        </div>
-        {input.interpoint.map((point, index) => (
-          <div className="flex items-center" key={index}>
-              <Autocomplete
-                    apiKey={"AIzaSyDjLpn8fDYOJJ9Yj7PVsJzslIiVfk2iiHg"}
-                    options={{
-                      componentRestrictions: { country: "in" },
-                    }}
-                    onPlaceSelected={(place) => {
-                      const updatedPoint = [...input.interpoint];
-                      updatedPoint[index] = place.formatted_address;
-                      setInput({ ...input, interpoint: updatedPoint });
-                    }}
-                  />
-            <button
-              type="button"
-              className="ml-2 inline-flex items-center py-1.5 px-3 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-900"
-              onClick={() => handleRemove(index)}
-            >
-              Remove
-            </button>
-          </div>
-        ))}
+
         <div>
           <label className="block text-sm font-medium" htmlFor="role">
             Role

@@ -142,10 +142,7 @@ export default function Offerride() {
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="flex gap-3">
                   <div>
-                    <label
-                      htmlFor="time"
-                      className="block text-sm font-medium"
-                    >
+                    <label htmlFor="time" className="block text-sm font-medium">
                       Time
                     </label>
                     <input
@@ -158,10 +155,7 @@ export default function Offerride() {
                   </div>
                 </div>
                 <div>
-                  <label
-                    htmlFor="type"
-                    className="block text-sm font-medium"
-                  >
+                  <label htmlFor="type" className="block text-sm font-medium">
                     Vehicle
                   </label>
                   <select
@@ -204,10 +198,16 @@ export default function Offerride() {
                     name="passenger"
                     onChange={handleInputChange}
                   >
-                    <option value={1}>1</option>
-                    <option value={2}>2</option>
-                    <option value={3}>3</option>
-                    <option value={4}>4</option>
+                    {input.type === "Bike" ? (
+                      <option value={1}>1</option>
+                    ) : (
+                      <>
+                        <option value={1}>1</option>
+                        <option value={2}>2</option>
+                        <option value={3}>3</option>
+                        <option value={4}>4</option>
+                      </>
+                    )}
                   </select>
                 </div>
               </div>
