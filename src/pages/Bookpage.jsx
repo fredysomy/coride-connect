@@ -118,6 +118,7 @@ const Bookpage = () => {
         offerer_email: offerData.offerer_email, // Adding user's email to the input object
         booker_email: user.email,
         booker_name: user.displayName,
+        created:new Date(),
         status: "pending",
         fare: fare,
         drop: location,

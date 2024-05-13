@@ -98,6 +98,7 @@ export default function Review() {
       const offerrideDocRef = doc(db, "offerride", bookRideData.offer_id);
       await updateDoc(offerrideDocRef, {
         passenger: increment(1),
+        active:false
       });
       console.log("Offerride document successfully updated!");
     } catch (error) {
@@ -123,6 +124,7 @@ export default function Review() {
     await updateOfferride();
     await updateBooking();
 e.target.innerText="Submited"
+document.querySelector('.feedback').style.display="none"
   };
   if (!bookRideData || !offererProfile) {
     return <div className="flex justify-center items-center h-screen">
@@ -132,6 +134,7 @@ e.target.innerText="Submited"
 
   return (
     <div className="max-w-screen-lg mx-auto shadow-md font-poppins rounded-md m-5 p-5 ">
+      <div className="feedback">
       <div className="text-center mb-4">
         <div className="bg-gray-300 flex flex-col items-center">
           <img
@@ -169,6 +172,7 @@ e.target.innerText="Submited"
           Submit Review
         </button>
       
+      </div>
 
       <div className="w-1/2 mx-auto my-5">
         <QRCode

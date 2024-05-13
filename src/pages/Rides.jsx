@@ -19,7 +19,7 @@ export default function Rides() {
             fetchedRides.push({ id: doc.id, ...doc.data() });
           });
           console.log(fetchedRides);
-          setBooking(fetchedRides);
+          setBooking(fetchedRides.sort((a,b)=> b.created - a.created));
         } catch (error) {
           console.error("Error fetching rides:", error);
         }

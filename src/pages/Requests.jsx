@@ -42,10 +42,11 @@ export default function Requests() {
         });
 
         console.log("Filtered requests:", filteredRequests);
-
-        setRequests(
-          filteredRequests.filter((request) => request.status == "pending"),
-        );
+        let first_filter= filteredRequests.filter((request) => request.status == "pending")
+       setRequests(first_filter.sort((a,b)=> a.created - b.created))
+        
+        //   filteredRequests.filter((request) => request.status == "pending"),
+        // );
         console.log(requests);
       } else {
         console.log("No matching documents found.");

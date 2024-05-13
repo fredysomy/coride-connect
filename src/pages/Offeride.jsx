@@ -5,10 +5,12 @@ import { auth, db } from "../firebase/firebase.js";
 import Autocomplete from "react-google-autocomplete";
 import { collection, addDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 export default function Offerride() {
   const nav = useNavigate();
   const [pick, setPick] = useState("");
   const [drop, setDrop] = useState("");
+  const [offering,setOffering]=useState(false)
   const [input, setInput] = useState({
     active: false,
     time: "",
@@ -30,8 +32,20 @@ export default function Offerride() {
     updatedPoint.splice(index, 1);
     setInput({ ...input, interpoint: updatedPoint });
   };
+  const isStateEmpty = () => {
+    
+return (
+      !pick ||
+      !drop ||
+      !input.time ||
+      !input.type ||
+      !input.mileage ||
+      !input.passenger 
+    );}
+  
 
   const handleSubmit = async (e) => {
+   
     e.preventDefault();
     const user = auth.currentUser;
     if (!auth.currentUser) {
@@ -41,16 +55,25 @@ export default function Offerride() {
 
     try {
       // Add data to Firestore collection
-      const offerRef = collection(db, "offerride"); // Ensure the collection name is correct
+      if(isStateEmpty()){
+        toast.error("Please fill all the fields")
+        return;
+      }
+      else {
+        setOffering(true)
+        const offerRef = collection(db, "offerride"); // Ensure the collection name is correct
       const docRef = await addDoc(offerRef, {
         ...input,
         drop: drop,
         pick: pick,
+        created: new Date(),
         passenger: parseInt(input.passenger),
         offerer_email: user.email, // Adding user's email to the input object
       });
       console.log("Offer successfully with ID: ", docRef.id);
-      nav("/home");
+      toast.success("Offer successfully created, go to My rides and activate it");
+      nav("/myrides");
+      }
     } catch (error) {
       console.error("Error adding data to Firestore: ", error);
     }
@@ -58,7 +81,7 @@ export default function Offerride() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl font-poppins ">
+    <div className="mx-auto max-w-7xl font-poppins px-5">
       <div className="space-y-6">
         <div className="space-y-2">
           <div className="pt-5 text-green-900 flex flex-col items-center justify-center">
@@ -214,12 +237,17 @@ export default function Offerride() {
             </div>
 
             <div className="flex justify-center">
-              <button
-                type="submit"
-                className="w-full l:w-auto inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium  text-white bg-green-900  focus:outline-none focus:ring-none"
-              >
-                Offer Ride
-              </button>
+            <button
+          disabled={offering}
+            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 rounded w-full ${
+              offering ? "cursor-not-allowed opacity-50" : ""
+            }
+            
+            `}
+            onClick={offering ? null : handleSubmit} // Disable onClick when loading
+          >
+            {offering ? "Offering..." : "Offer Ride"}
+          </button>
             </div>
           </form>
         </div>

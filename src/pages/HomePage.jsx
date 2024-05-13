@@ -71,8 +71,10 @@ export default function HomePage() {
       ridesQuerySnapshot.forEach((doc) => {
         ridesData.push({ ...doc.data(), docId: doc.id });
       });
+      let init_filter=ridesData.filter((ride) => ride.active == true && ride.passenger > 0);
+
       setData(
-        ridesData.filter((ride) => ride.active == true && ride.passenger > 0)
+        init_filter.sort((a,b)=> a.created-b.created)
       );
     } catch (error) {
       console.error("Error fetching rides data:", error);
