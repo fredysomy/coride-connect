@@ -24,7 +24,7 @@ export default function MyComponent({data,index}) {
           
         </div>
 
-        <div className="flex flex-col space-y-2">
+        <div className="flex flex-col space-y-2 w-1/2 overflow-hidden">
           <div className="flex space-x-1">
             <img src={location} alt="loc icon" className="h-5 w-5" />
             {console.log(data)}
