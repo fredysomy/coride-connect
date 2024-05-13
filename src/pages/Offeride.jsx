@@ -81,7 +81,7 @@ return (
   };
 
   return (
-    <div className="mx-auto max-w-7xl font-poppins px-5">
+    <div className="mx-auto max-w-7xl font-poppins ">
       <div className="space-y-6">
         <div className="space-y-2">
           <div className="pt-5 text-green-900 flex flex-col items-center justify-center">
@@ -91,7 +91,7 @@ return (
           </div>
 
           <form
-            className="grid gap-6 bg-blue-gray-50 rounded-xl"
+            className="grid gap-6 bg-blue-gray-50 rounded-xl p-5"
             onSubmit={handleSubmit}
           >
             <div className="grid grid-cols-1 gap-4 p-2">
@@ -143,10 +143,10 @@ return (
                 </button>
               </div>
               {input.interpoint.map((point, index) => (
-                <div className="flex items-center" key={index}>
+                <div className="flex items-center w-full" key={index}>
                   <Autocomplete
                     apiKey={"AIzaSyDjLpn8fDYOJJ9Yj7PVsJzslIiVfk2iiHg"}
-                    className="border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-custom-green focus:border-transparent"
+                    className="border border-gray-300 rounded-md py-2 px-4 w-3/4 focus:outline-none focus:ring-2 focus:ring-custom-green focus:border-transparent"
                     options={{
                       componentRestrictions: { country: "in" },
                     }}
@@ -168,7 +168,7 @@ return (
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="flex gap-3">
                   <div>
-                    <label htmlFor="time" className="block text-sm font-medium">
+                    <label htmlFor="time" className="block text-sm font-medium border border-gray-300 rounded-md py-2 px-4 w-3/4 focus:outline-none focus:ring-2 focus:ring-custom-green focus:border-transparent">
                       Time
                     </label>
                     <input
@@ -204,6 +204,7 @@ return (
                       Mileage
                     </label>
                     <input
+                    className="border border-gray-300 rounded-md py-2 px-4 w-3/4 focus:outline-none focus:ring-2 focus:ring-custom-green focus:border-transparent"
                       type="number"
                       id="mileage"
                       name="mileage"
