@@ -15,6 +15,7 @@ import {
   getDocs,
   addDoc,
 } from "firebase/firestore";
+import { toast } from "sonner";
 const Bookpage = () => {
   const { id } = useParams();
   const nav = useNavigate();
@@ -40,7 +41,21 @@ const Bookpage = () => {
       console.error("Error fetching offer data:", error);
     }
   };
-
+  const fetchProfile = async (email) => {
+    try {
+      const profileRef = collection(db, "profile");
+      const q = query(profileRef, where("email", "==", email));
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        return true
+      } else {
+        return false
+      }
+    } catch (error) {
+      console.error("Error fetching profile:", error);
+      return false
+    }
+  };
   // Function to fetch offerer profile data from Firestore
   const fetchOffererData = async () => {
     try {
@@ -108,39 +123,48 @@ const Bookpage = () => {
       return;
     }
     try {
-      setLoading(true);
-      // Add data to Firestore collection
-      const offerRef = collection(db, "bookride"); // Ensure the collection name is correct
-      const docRef = await addDoc(offerRef, {
-        ...offerData,
-        ...offererData,
-        passenger: parseInt(offerData.passenger),
-        offerer_email: offerData.offerer_email, // Adding user's email to the input object
-        booker_email: user.email,
-        booker_name: user.displayName,
-        created:new Date(),
-        status: "pending",
-        fare: fare,
-        drop: location,
-        offer_id: id,
-        accpeted: false,
-      });
-      console.log("Offer successfully with ID: ", docRef.id);
-      const url =
-        "https://svps-backend-99c87df9aa95.herokuapp.com/send-notification";
-      const options = {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: `{"email":"${offerData.offerer_email}","title":"New Ride request","body":"You have a new ride request from ${user.displayName}","url":"http://ocalhost:5173/requests"}`,
-      };
-
-      try {
-        await fetch(url, options);
-        alert("Ride request is sent");
-        nav("/rides");
-      } catch (error) {
-        console.error(error);
-      }
+      fetchProfile(user.email).then(async(data)=> {
+        if(data){
+          setLoading(true);
+          // Add data to Firestore collection
+          const offerRef = collection(db, "bookride"); // Ensure the collection name is correct
+          const docRef = await addDoc(offerRef, {
+            ...offerData,
+            ...offererData,
+            passenger: parseInt(offerData.passenger),
+            offerer_email: offerData.offerer_email, // Adding user's email to the input object
+            booker_email: user.email,
+            booker_name: user.displayName,
+            booker_img:user.photoURL,
+            created:new Date(),
+            status: "pending",
+            fare: fare,
+            drop: location,
+            offer_id: id,
+            accpeted: false,
+          });
+          console.log("Offer successfully with ID: ", docRef.id);
+          const url =
+            "https://svps-backend-99c87df9aa95.herokuapp.com/send-notification";
+          const options = {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: `{"email":"${offerData.offerer_email}","title":"New Ride request","body":"You have a new ride request from ${user.displayName}","url":"http://ocalhost:5173/requests"}`,
+          };
+    
+          try {
+            await fetch(url, options);
+            alert("Ride request is sent");
+            nav("/rides");
+          } catch (error) {
+            console.error(error);
+          }
+        }
+        else {
+          toast.error("Profile not created, create a profile")
+          nav("/profile/create")
+        }
+      })
     } catch (error) {
       console.error("Error adding data to Firestore: ", error);
     }

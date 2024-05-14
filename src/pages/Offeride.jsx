@@ -3,14 +3,14 @@ import "react-datepicker/dist/react-datepicker.css";
 import offerimg from "../assets/offerride.svg";
 import { auth, db } from "../firebase/firebase.js";
 import Autocomplete from "react-google-autocomplete";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 export default function Offerride() {
   const nav = useNavigate();
   const [pick, setPick] = useState("");
   const [drop, setDrop] = useState("");
-  const [offering,setOffering]=useState(false)
+  const [offering, setOffering] = useState(false)
   const [input, setInput] = useState({
     active: false,
     time: "",
@@ -33,19 +33,35 @@ export default function Offerride() {
     setInput({ ...input, interpoint: updatedPoint });
   };
   const isStateEmpty = () => {
-    
-return (
+
+    return (
       !pick ||
       !drop ||
       !input.time ||
       !input.type ||
       !input.mileage ||
-      !input.passenger 
-    );}
-  
+      !input.passenger
+    );
+  }
 
+  const fetchProfile = async (email) => {
+    try {
+      const profileRef = collection(db, "profile");
+      const q = query(profileRef, where("email", "==", email));
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        return true
+      } else {
+        return false
+      }
+    } catch (error) {
+      console.error("Error fetching profile:", error);
+      return false
+    }
+  };
+  fetchProfile("jeslin.csa2125@saintgits.org").then((data) => { console.log(data) })
   const handleSubmit = async (e) => {
-   
+
     e.preventDefault();
     const user = auth.currentUser;
     if (!auth.currentUser) {
@@ -55,25 +71,37 @@ return (
 
     try {
       // Add data to Firestore collection
-      if(isStateEmpty()){
-        toast.error("Please fill all the fields")
-        return;
+      fetchProfile(user.email).then(async(data) => {
+        if (data) {
+          if (isStateEmpty()) {
+            toast.error("Please fill all the fields")
+            return;
+          }
+          else {
+            setOffering(true)
+            const offerRef = collection(db, "offerride"); // Ensure the collection name is correct
+            const docRef = await addDoc(offerRef, {
+              ...input,
+              drop: drop,
+              pick: pick,
+              created: new Date(),
+              passenger: parseInt(input.passenger),
+              offerer_email: user.email, // Adding user's email to the input object
+            });
+            console.log("Offer successfully with ID: ", docRef.id);
+            toast.success("Offer successfully created, go to My rides and activate it");
+            nav("/myrides");
+          }
+        }
+        else {
+          toast.error("Profile not created,create a profilr")
+          nav("/profile/create")
+        }
       }
-      else {
-        setOffering(true)
-        const offerRef = collection(db, "offerride"); // Ensure the collection name is correct
-      const docRef = await addDoc(offerRef, {
-        ...input,
-        drop: drop,
-        pick: pick,
-        created: new Date(),
-        passenger: parseInt(input.passenger),
-        offerer_email: user.email, // Adding user's email to the input object
-      });
-      console.log("Offer successfully with ID: ", docRef.id);
-      toast.success("Offer successfully created, go to My rides and activate it");
-      nav("/myrides");
-      }
+      )
+
+
+
     } catch (error) {
       console.error("Error adding data to Firestore: ", error);
     }
@@ -204,7 +232,7 @@ return (
                       Mileage
                     </label>
                     <input
-                    className="border border-gray-300 rounded-md py-2 px-4 w-3/4 focus:outline-none focus:ring-2 focus:ring-custom-green focus:border-transparent"
+                      className="border border-gray-300 rounded-md py-2 px-4 w-3/4 focus:outline-none focus:ring-2 focus:ring-custom-green focus:border-transparent"
                       type="number"
                       id="mileage"
                       name="mileage"
@@ -241,17 +269,16 @@ return (
             </div>
 
             <div className="flex justify-center">
-            <button
-          disabled={offering}
-            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 rounded w-full ${
-              offering ? "cursor-not-allowed opacity-50" : ""
-            }
+              <button
+                disabled={offering}
+                className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 rounded w-full ${offering ? "cursor-not-allowed opacity-50" : ""
+                  }
             
             `}
-            onClick={offering ? null : handleSubmit} // Disable onClick when loading
-          >
-            {offering ? "Offering..." : "Offer Ride"}
-          </button>
+                onClick={offering ? null : handleSubmit} // Disable onClick when loading
+              >
+                {offering ? "Offering..." : "Offer Ride"}
+              </button>
             </div>
           </form>
         </div>

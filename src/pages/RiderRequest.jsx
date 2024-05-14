@@ -107,22 +107,21 @@ const RiderRequest = () => {
     return <div>Loading...</div>;
   }
 
-  const { name, phoneno, drop, pick, time, img, fare, age, home, passenger } =
+  const { booker_name, phoneno, drop, pick, time, booker_img, fare, age, home, passenger } =
     request;
   return (
     <div className="flex justify-center items-center h-screen m-5 font-poppins">
       <div className="shadow-lg rounded-lg bg-gray-100 w-full max-w-md p-8">
         <div className="bg-gray-200 rounded-lg p-4 mb-6 flex flex-col items-center">
           <img
-            src={img}
+            src={booker_img}
             alt="Profile"
             className="w-16 h-16 rounded-full mb-2"
           />{" "}
           {/* Photo */}
-          <p className="text-xl font-semibold">{name}</p> {/* Name */}
+          <p className="text-xl font-semibold">{booker_name}</p> {/* Name */}
         </div>
-        <span className="block text-center mb-4">📞 {phoneno}</span>{" "}
-        {/* Phone Number */}
+        
         <div className="h-px bg-black w-full mt-2 mb-2"></div>
         <h2 className="text-xl font-semibold mb-2">Details</h2> {/* Heading */}
         <div className="mb-4 w-full">
