@@ -10,6 +10,7 @@ import {
   MdHome,
   MdDirectionsCar,
   MdOutlineShoppingCart,
+  MdContactPhone,
   MdBookmark,
 } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
@@ -132,6 +133,21 @@ export function StickyNavbar() {
           </Typography>
         </>
       )}
+      <Typography
+            as="li"
+            variant="small"
+            color="blue-gray"
+            className="p-2 font-normal text-md text-gray-300 hover:text-white  transition-transform duration-300 hover:scale-105"
+          >
+            <Link
+              to="/contact"
+              className="flex items-center gap-2.5"
+              onClick={() => setOpenNav(false)} // Close navbar when clicked
+            >
+              <MdContactPhone />
+              Contact Us
+            </Link>
+          </Typography>
     </ul>
   );
 
@@ -139,12 +155,13 @@ export function StickyNavbar() {
     <div className="max-h-[768px]">
       <Navbar className="sticky top-0 z-10 h-max max-w-full rounded-none px-4 py-2 lg:px-8 lg:py-4 bg-custom-green border-none bg-opacity-100">
         <div className="flex items-center justify-between text-blue-gray-900">
+          <img height={40} width={40} src="https://cdn.iconscout.com/icon/premium/png-256-thumb/car-location-1921481-1628548.png"/>
           <Typography
             as={Link}
             to="#"
             className="mr-4 cursor-pointer text-2xl font-semibold  py-1.5  text-white"
           >
-            <Link to="/home" className="flex items-center gap-2.5 font-poppins">
+            <Link to="/" className="flex items-center gap-2.5 font-poppins">
               CORIDE-CONNECT
             </Link>
           </Typography>

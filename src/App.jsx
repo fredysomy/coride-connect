@@ -31,6 +31,7 @@ import MyRides from "./pages/MyRides.jsx";
 import "react-toastify/dist/ReactToastify.css";
 import { Toaster, toast } from "sonner";
 import Rides from "./pages/Rides.jsx";
+import ContactUsPage from "./pages/contact.jsx";
 
 function App() {
   async function requestPermission(email) {
@@ -114,6 +115,7 @@ function App() {
           <Route path="/review/:id" element={<Review />} />
           <Route path="/myrides" element={<MyRides />} />
           <Route path="/rides" element={<Rides />} />
+          <Route path="/contact" element={<ContactUsPage/>}/>
         </Routes>
       </BrowserRouter>
     </>
