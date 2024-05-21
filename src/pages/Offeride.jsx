@@ -49,17 +49,19 @@ export default function Offerride() {
       const profileRef = collection(db, "profile");
       const q = query(profileRef, where("email", "==", email));
       const querySnapshot = await getDocs(q);
+      console.log(querySnapshot.docs[0].data().role)
       if (!querySnapshot.empty) {
-        return true
+        return {success:true,type:querySnapshot.docs[0].data().role}
       } else {
-        return false
+
+        return {success:false,type:null}
       }
     } catch (error) {
       console.error("Error fetching profile:", error);
       return false
     }
   };
-  fetchProfile("jeslin.csa2125@saintgits.org").then((data) => { console.log(data) })
+  
   const handleSubmit = async (e) => {
 
     e.preventDefault();
@@ -72,12 +74,18 @@ export default function Offerride() {
     try {
       // Add data to Firestore collection
       fetchProfile(user.email).then(async(data) => {
-        if (data) {
+        console.log(data)
+        if (data.success) {
+          if(data.type==='Rider'){
+            toast.error("You cant offer ride as you are a Rider");
+            return;
+          }
           if (isStateEmpty()) {
             toast.error("Please fill all the fields")
             return;
           }
-          else {
+          
+          
             setOffering(true)
             const offerRef = collection(db, "offerride"); // Ensure the collection name is correct
             const docRef = await addDoc(offerRef, {
@@ -91,7 +99,7 @@ export default function Offerride() {
             console.log("Offer successfully with ID: ", docRef.id);
             toast.success("Offer successfully created, go to My rides and activate it");
             nav("/myrides");
-          }
+          
         }
         else {
           toast.error("Profile not created,create a profilr")

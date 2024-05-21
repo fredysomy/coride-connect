@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { db } from "../firebase/firebase";
 import { collection, getDoc, doc, updateDoc } from "firebase/firestore";
 import { useParams, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const RiderRequest = () => {
   const { id } = useParams();
@@ -27,6 +28,8 @@ const RiderRequest = () => {
 
     fetchRequest();
   }, [id]);
+
+ 
   const AcceptBooking = async () => {
     console.log(request);
     try {
@@ -72,6 +75,7 @@ const RiderRequest = () => {
     } catch (error) {
       console.error("Error accepting booking:", error);
     }
+    toast.success("You have accepted the request")
     setAccepting(false);
     nav("/requests");
   };
@@ -100,6 +104,7 @@ const RiderRequest = () => {
       console.error(error);
     }
     setRejecting(false);
+    toast.warning("You have rejected the offer")
     nav("/requests");
   };
 
@@ -125,19 +130,9 @@ const RiderRequest = () => {
         <div className="h-px bg-black w-full mt-2 mb-2"></div>
         <h2 className="text-xl font-semibold mb-2">Details</h2> {/* Heading */}
         <div className="mb-4 w-full">
-          <div className="flex items-center mb-2">
-            <span className="mr-2">👤</span>
-            <span>Age: {age}</span> {/* Age */}
-          </div>
-          <div className="flex items-center mb-2">
-            <span className="mr-2">📍</span>
-            <span>Location: {home}</span> {/* Location */}
-          </div>
-          <div className="flex items-center mb-2">
-            <span className="mr-2">👥</span>
-            <span>Number of Passengers: {passenger}</span>{" "}
-            {/* Number of Passengers */}
-          </div>
+
+         
+         
           <div className="flex items-center mb-2">
             <span className="mr-2">🚩</span>
             <span>Starting Point: {pick}</span>

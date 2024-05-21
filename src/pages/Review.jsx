@@ -74,11 +74,12 @@ export default function Review() {
     const profileDocRef = collection(db, "profile");
     const q = query(profileDocRef, where("email", "==", offererProfile.email));
     const querySnapshot = await getDocs(q);
+    
     querySnapshot.forEach(async (doc) => {
       try {
         const profileDoc = doc.data();
         // Update the desired fields in the document
-        const updatedReviews = [...profileDoc.reviews, formData.text];
+       const updatedReviews = [...profileDoc.reviews, {review:formData.text,user:bookRideData.booker_name}];
         const updatedStars = [...profileDoc.ratings, formData.rating];
         await updateDoc(doc.ref, {
           reviews: updatedReviews,

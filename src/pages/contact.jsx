@@ -7,10 +7,10 @@ const ContactUsPage = () => {
         <div className="py-4 px-6">
           <h2 className="text-3xl font-semibold text-gray-800 mb-2">Contact Us</h2>
           <div className="flex flex-col space-y-4">
-            <ContactCard name="Fredy Somy" phone="9076543267" />
-            <ContactCard name="Jeslin Kuriakose" phone="9807654243" />
-            <ContactCard name="Irine Ann Jikku" phone="3456789098" />
-            <ContactCard name="Jefrin Thomas Mathew" phone="9087654325" />
+            <ContactCard name="Fredy Somy" phone="8157981093" />
+            <ContactCard name="Jeslin Kuriakose" phone="9207202324" />
+            <ContactCard name="Irine Ann Jikku" phone="9188005847" />
+            <ContactCard name="Jefrin Thomas Mathew" phone="8921530785" />
           </div>
         </div>
       </div>
@@ -25,7 +25,7 @@ const ContactCard = ({ name, phone }) => {
         <h3 className="text-lg font-semibold text-gray-800">{name}</h3>
         <p className="text-gray-600">{phone}</p>
       </div>
-      <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Contact</button>
+      <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600" onClick={()=>window.location=`tel:${phone}`}>Contact</button>
     </div>
   );
 };

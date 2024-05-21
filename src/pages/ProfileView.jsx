@@ -79,7 +79,7 @@ export default function ProfileView() {
                   </div>
                   <div className="flex flex-col">
                     <p className="flex justify-center text-black">
-                      {profile.drive_exp}
+                      {profile.drive_exp || 0}
                     </p>
                     <p className="text-black">Year</p>
                   </div>
@@ -114,11 +114,11 @@ export default function ProfileView() {
             </h2>
 
             <div className="rounded-lg">
-              {profile.reviews.map((review, index) => (
-                <div key={index} className="mb-2 bg-gray-300 rounded-lg">
-                  <h3 className="text-md font-semibold  text-black ">User</h3>
+              {profile.reviews.map((data, index) => (
+                <div key={index} className="mb-2 bg-gray-300 rounded-lg p-3">
+                  <h3 className="text-md font-semibold  text-black ">{data.user}</h3>
                   
-                  <p className="mb-1 text-black text-left pl-2">{review}</p>
+                  <p className="mb-1 text-black text-left mt-3">↪{" "}{data.review}</p>
                 </div>
               ))}
             </div>
